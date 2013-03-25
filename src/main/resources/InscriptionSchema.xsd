@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:schema xmlns:tns="http://www.w3.org/2001/XMLSchema" xmlns:inscription="http://coUps/InscriptionSchema" targetNamespace="http://coUps/InscriptionSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<tns:element name="inscriptionRequest">
+		<tns:complexType>
+			<tns:sequence>
+				<tns:element name="nom" maxOccurs="1" minOccurs="1"/>
+				<tns:element name="prenom" maxOccurs="1" minOccurs="1"/>
+				<tns:element name="email" maxOccurs="1" minOccurs="1"/>
+				<tns:element name="adresse" maxOccurs="1" minOccurs="1"/>
+			</tns:sequence>
+		</tns:complexType>		
+	</tns:element>
+	<tns:element name="inscriptionResponse">
+		<tns:complexType>
+			<tns:sequence>
+				<tns:element name="valeur" minOccurs="1" maxOccurs="1">
+					<tns:simpleType>
+						<tns:restriction base="tns:string">
+							<tns:enumeration value="OK" />
+							<tns:enumeration value="KO" />
+						</tns:restriction>
+					</tns:simpleType>
+				</tns:element>
+			</tns:sequence>
+		</tns:complexType>
+	</tns:element>
+</tns:schema>

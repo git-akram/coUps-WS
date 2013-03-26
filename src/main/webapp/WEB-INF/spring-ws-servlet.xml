@@ -11,7 +11,9 @@
 	
     <sws:annotation-driven/>
 	
-	<sws:dynamic-wsdl id="inscription" portTypeName="Inscription" locationUri="http://localhost:8080/inscriptionService/">
+	<sws:dynamic-wsdl id="inscription" 
+		portTypeName="Inscription" 
+		locationUri="/inscriptionService/">
   	<sws:xsd location="/WEB-INF/xsd/InscriptionSchema.xsd"/>
 	</sws:dynamic-wsdl>
 	

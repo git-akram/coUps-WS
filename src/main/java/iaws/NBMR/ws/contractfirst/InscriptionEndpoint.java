@@ -1,6 +1,7 @@
 package iaws.NBMR.ws.contractfirst;
 
 import iaws.NBMR.domaines.Utilisateur;
+import iaws.NBMR.exception.CustomException;
 import iaws.NBMR.service.InscriptionService;
 
 import org.jdom.Element;
@@ -27,21 +28,16 @@ public class InscriptionEndpoint {
 						 @XPathParam("/inscriptionRequest/email") String email,
 						 @XPathParam("/inscriptionRequest/adresse") String adresse){
 		
-		Utilisateur utilisateur=new Utilisateur(nom,prenom,email,adresse);
-		String reponse = inscriptionService.inscrireUtilisateur(utilisateur);
-		System.out.println("OK");
+		Utilisateur utilisateur = new Utilisateur(nom, prenom, email, adresse);
 		
-		/*Namespace namespace = Namespace.getNamespace("http://coUps/InscriptionSchema");
-		Element element = new Element("inscriptionResponse", namespace);
-        Element valeur = new Element("valeur", namespace);
-        valeur.setText(reponse);
-        
-        element.addContent(valeur);*/
+		try {
+			inscriptionService.inscrireUtilisateur(utilisateur);
+		} catch (CustomException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		/*Element element = XmlHelper.getRootElementFromFileInClasspath("InscriptionResponse.xml") ;
-        return  element;
-        
-		return element;*/
+		
 	}
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inscriptionResponse 
-		xmlns:inscription="http://coUps/inscriptionSchema"
+		xmlns="http://coUps/inscriptionSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://coUps/InscriptionSchema InscriptionSchema.xsd">
 	<valeur>OK</valeur>

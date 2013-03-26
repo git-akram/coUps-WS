@@ -22,23 +22,26 @@ public class InscriptionEndpoint {
 	
 	@PayloadRoot(localPart="inscriptionRequest", namespace="http://coUps/InscriptionSchema")
 	@ResponsePayload
-	public Element handleInscriptionRequest( @XPathParam("/inscriptionRequest/inscription:nom") String nom,
-						 @XPathParam("/inscriptionRequest/inscription:prenom") String prenom,
-						 @XPathParam("/inscriptionRequest/inscription:email") String email,
-						 @XPathParam("/inscriptionRequest/inscription:adresse") String adresse){
+	public void handleInscriptionRequest( @XPathParam("/inscriptionRequest/nom") String nom,
+						 @XPathParam("/inscriptionRequest/prenom") String prenom,
+						 @XPathParam("/inscriptionRequest/email") String email,
+						 @XPathParam("/inscriptionRequest/adresse") String adresse){
 		
 		Utilisateur utilisateur=new Utilisateur(nom,prenom,email,adresse);
 		String reponse = inscriptionService.inscrireUtilisateur(utilisateur);
 		System.out.println("OK");
 		
-		Namespace namespace = Namespace.getNamespace("inscriptionResponse", "http://coUps/InscriptionSchema");
+		/*Namespace namespace = Namespace.getNamespace("http://coUps/InscriptionSchema");
 		Element element = new Element("inscriptionResponse", namespace);
         Element valeur = new Element("valeur", namespace);
         valeur.setText(reponse);
         
-        element.addContent(valeur);
+        element.addContent(valeur);*/
+		
+		/*Element element = XmlHelper.getRootElementFromFileInClasspath("InscriptionResponse.xml") ;
+        return  element;
         
-		return element;
+		return element;*/
 	}
 
 }

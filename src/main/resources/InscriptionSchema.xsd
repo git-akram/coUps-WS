@@ -21,6 +21,38 @@
 						</tns:restriction>
 					</tns:simpleType>
 				</tns:element>
+				<tns:element name="coordonnees" minOccurs="0" maxOccurs="1">
+					<tns:complexType>
+						<tns:sequence>
+							<tns:element name="x" type="tns:double" minOccurs="1" maxOccurs="1" />
+							<tns:element name="y" type="tns:double" minOccurs="1" maxOccurs="1" />
+						</tns:sequence>
+					</tns:complexType>
+				</tns:element>
+				<tns:element name="erreur" minOccurs="0" maxOccurs="1">
+					<tns:complexType>
+						<tns:sequence>
+							<tns:element name="code" minOccurs="1" maxOccurs="1">
+								<tns:simpleType>
+									<tns:restriction base="tns:string">
+										<tns:enumeration value="100" />
+										<tns:enumeration value="110" />
+										<tns:enumeration value="200" />
+									</tns:restriction>
+								</tns:simpleType>
+							</tns:element>
+							<tns:element name="message" minOccurs="1" maxOccurs="1">
+								<tns:simpleType>
+									<tns:restriction base="tns:string">
+										<tns:enumeration value="Adresse email déjà utilisée" />
+										<tns:enumeration value="Adresse email invalide" />
+										<tns:enumeration value=" Adresse postale non connue de Open Street Map" />
+									</tns:restriction>
+								</tns:simpleType>
+							</tns:element>
+						</tns:sequence>
+					</tns:complexType>
+				</tns:element>
 			</tns:sequence>
 		</tns:complexType>
 	</tns:element>

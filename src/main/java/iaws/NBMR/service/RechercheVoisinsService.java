@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface RechercheVoisinsService {
 
-	public List<Utilisateur> rechercherVoisin();
+	/**
+	 * 
+	 * @return la liste des utilisateur voisins, sans l'utilisateur lui même
+	 */
+	public List<Utilisateur> rechercherVoisin(Utilisateur utilisateur);
 	
 }

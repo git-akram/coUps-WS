@@ -7,7 +7,7 @@ import iaws.NBMR.service.RechercheVoisinsService;
 
 public class RechercheVoisinsServiceImpl implements RechercheVoisinsService {
 
-	public List<Utilisateur> rechercherVoisin() {
+	public List<Utilisateur> rechercherVoisin(Utilisateur utilisateur) {
 		// TODO Auto-generated method stub
 		return null;
 	}

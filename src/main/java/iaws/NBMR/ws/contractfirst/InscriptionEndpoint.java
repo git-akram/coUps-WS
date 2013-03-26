@@ -28,9 +28,10 @@ public class InscriptionEndpoint {
 						 @XPathParam("/inscriptionRequest/email") String email,
 						 @XPathParam("/inscriptionRequest/adresse") String adresse){
 		
+		System.out.println("je suis dans handleInscriptionRequest");
 		Utilisateur utilisateur = new Utilisateur(nom, prenom, email, adresse);
 		
-		System.out.println("je suis dans handleInscriptionRequest");
+		
 		try {
 			inscriptionService.inscrireUtilisateur(utilisateur);
 		} catch (CustomException e) {

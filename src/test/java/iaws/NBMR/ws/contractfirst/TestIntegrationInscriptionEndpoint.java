@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.test.server.MockWebServiceClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/application-context.xml")
+@ContextConfiguration("application-context.xml")
 public class TestIntegrationInscriptionEndpoint {
 	@Autowired
     private ApplicationContext applicationContext;
@@ -26,18 +26,18 @@ public class TestIntegrationInscriptionEndpoint {
 
     @Before
     public void createClient() {
-    	System.out.println("entrée createClient()");
+    	System.out.println("entrï¿½e createClient()");
         mockClient = MockWebServiceClient.createClient(applicationContext);
-        System.out.println("création du mock Client");
+        System.out.println("crï¿½ation du mock Client");
     }
 
     @Test
     public void inscriptionEndpoint() throws Exception {
-    	System.out.println("entrée inscriptionEndpoint()");
+    	System.out.println("entrï¿½e inscriptionEndpoint()");
         Source requestPayload = new StreamSource(new ClassPathResource("InscriptionRequest.xml").getInputStream() );
-        System.out.println("création de la source requestPayload");
+        System.out.println("crï¿½ation de la source requestPayload");
         Source responsePayload = new StreamSource(new ClassPathResource("InscriptionResponse.xml").getInputStream());
-        System.out.println("création de la source responsePayload");
+        System.out.println("crï¿½ation de la source responsePayload");
         
         mockClient.sendRequest(withPayload(requestPayload)).andExpect(payload(responsePayload));
         System.out.println("sendRequest with Payload(requestPayload)");

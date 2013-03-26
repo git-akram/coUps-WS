@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<inscriptionResquest 
-		xmlns:inscription="http://coUps/InscriptionSchema"
+<inscriptionRequest 
+		xmlns="http://coUps/InscriptionSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://coUps/InscriptionSchema InscriptionSchema.xsd">
 	<nom>Rhafrane</nom>
 	<prenom>akram</prenom>
 	<email>aaa@exemple.com</email>
 	<adresse>21 rue Albert 31300 toulouse</adresse>
-</inscriptionResquest>
+</inscriptionRequest>

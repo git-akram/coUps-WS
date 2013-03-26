@@ -30,6 +30,7 @@ public class InscriptionEndpoint {
 		
 		Utilisateur utilisateur = new Utilisateur(nom, prenom, email, adresse);
 		
+		System.out.println("je suis dans handleInscriptionRequest");
 		try {
 			inscriptionService.inscrireUtilisateur(utilisateur);
 		} catch (CustomException e) {

@@ -21,6 +21,6 @@ public interface DataService {
 	 * @param distance en mètres
 	 * @return la liste des utilisateurs trouvés, y compris l'utilisateur courant
 	 */
-	public List<Utilisateur> findUtilisateurACoteDe(Utilisateur utilisateur, int distance);
+	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance);
 	
 }

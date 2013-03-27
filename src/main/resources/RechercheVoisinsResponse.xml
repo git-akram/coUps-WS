@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rechercheVoisinsResponse
+			xmlns="http://coUps/RechercheVoisinsSchema"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://coUps/RechercheVoisinsSchema RechercheVoisinsSchema.xsd">
+	<voisin>
+    	<nom>user1</nom>
+    	<prenom>prenom1</prenom>
+    	<email>user1@exemple.com</email>
+    	<adresse>31 rue toulouse</adresse>
+  	</voisin>
+  	<voisin>
+	    <nom>user2</nom>
+	    <prenom>prenom2</prenom>
+	    <email>user2@exemple.com</email>
+	    <adresse>40 rue toulouse</adresse>
+  	</voisin>
+</rechercheVoisinsResponse>

@@ -14,6 +14,11 @@
 		locationUri="/inscriptionService/">
   	<sws:xsd location="/WEB-INF/xsd/InscriptionSchema.xsd"/>
 	</sws:dynamic-wsdl>
+	<sws:dynamic-wsdl id="rechercheVoisins" 
+		portTypeName="RechercheVoisins" 
+		locationUri="/rechercheVoisinsService/">
+  	<sws:xsd location="/WEB-INF/xsd/RechercheVoisinsSchema.xsd"/>
+	</sws:dynamic-wsdl>
 	
 	<bean id="inscriptionEndpoint"
 		class="iaws.NBMR.ws.contractfirst.InscriptionEndpoint">
@@ -21,5 +26,12 @@
     </bean>
 	<bean id="inscriptionService"
 		class="iaws.NBMR.services.impl.InscriptionServiceImpl" />
+		
+	<bean id="rechercheVoisinsEndpoint"
+		class="iaws.NBMR.ws.contractfirst.RechercheVoisinsEndpoint">
+        <constructor-arg name="rechercheVoisinsService" ref="rechercheVoisinsService"/>
+    </bean>
+	<bean id="rechercheVoisinsService"
+		class="iaws.NBMR.services.impl.RechercheVoisinsServiceImpl" />
 
 </beans>

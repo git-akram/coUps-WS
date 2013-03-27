@@ -10,6 +10,6 @@ public interface RechercheVoisinsService {
 	 * 
 	 * @return la liste des utilisateur voisins, sans l'utilisateur lui même
 	 */
-	public List<Utilisateur> rechercherVoisin(Utilisateur utilisateur);
+	public List<Utilisateur> rechercherVoisin(String email, int distance);
 	
 }

@@ -12,8 +12,7 @@ public class DataServiceImpl implements DataService{
 		
 	}
 
-	public List<Utilisateur> findUtilisateurACoteDe(Utilisateur utilisateur,
-			int distance) {
+	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) {
 		// TODO Auto-generated method stub
 		return null;
 	}

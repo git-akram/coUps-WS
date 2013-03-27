@@ -2,7 +2,7 @@
 <rechercheVoisinsRequest
 			xmlns="http://coUps/RechercheVoisinsSchema"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="http://coUps/RechercheVoisinsSchema rechercheVoisinsSchema.xsd">
+			xsi:schemaLocation="http://coUps/RechercheVoisinsSchema RechercheVoisinsSchema.xsd">
 
     <email>user3@exemple.com</email>
     <distance>200</distance>  	

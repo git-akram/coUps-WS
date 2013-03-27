@@ -1,7 +1,5 @@
 package iaws.NBMR.ws.contractfirst;
 
-import iaws.NBMR.domaines.Utilisateur;
-import iaws.NBMR.service.InscriptionService;
 import iaws.NBMR.service.RechercheVoisinsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ public class RechercheVoisinsEndpoint {
 	
 	@Autowired
 	public RechercheVoisinsEndpoint(RechercheVoisinsService rechercheVoisinsService){
+		System.out.println("je suis dans le constructeur du Endpoint");
 		this.rechercheVoisinsService=rechercheVoisinsService;
 	}
 	
@@ -24,7 +23,7 @@ public class RechercheVoisinsEndpoint {
 	public void handleRechercheVoisinsRequest( @XPathParam("/rechercheVoisinsRequest/email") String email,
 											   @XPathParam("/rechercheVoisinsRequest/distance") int distance){
 		
-		System.out.println("je suis dans handleInscriptionRequest");
+		System.out.println("je suis dans handleRechercheVoisinsRequest");
 		
 		rechercheVoisinsService.rechercherVoisin(email, distance);
 	}

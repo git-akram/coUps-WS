@@ -32,7 +32,7 @@ public class TestIntegrationRechercheVoisinsEndpoint {
 
     @Test
     public void rechercheVoisinsEndpoint() throws Exception {
-    	System.out.println("entrée inscriptionEndpoint()");
+    	System.out.println("entrée RechercheVoisinsEndpoint()");
         Source requestPayload = new StreamSource(new ClassPathResource("RechercheVoisinsRequest.xml").getInputStream() );
         System.out.println("création de la source requestPayload");
         Source responsePayload = new StreamSource(new ClassPathResource("RechercheVoisinsResponse.xml").getInputStream());

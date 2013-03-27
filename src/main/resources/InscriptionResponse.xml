@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<inscriptionResponse 
-		xmlns="http://coUps/inscriptionSchema"
+<inscriptionResponse
+		xmlns="http://coUps/InscriptionSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://coUps/InscriptionSchema InscriptionSchema.xsd">
-	<valeur>OK</valeur>
+	<valeur>KO</valeur>
+	<erreur>
+		<code>100</code>
+		<message>Adresse email déjà utilisée</message>
+	</erreur>
 </inscriptionResponse>

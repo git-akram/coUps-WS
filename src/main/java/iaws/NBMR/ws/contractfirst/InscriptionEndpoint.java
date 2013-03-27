@@ -1,5 +1,9 @@
 package iaws.NBMR.ws.contractfirst;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import iaws.NBMR.domaines.Utilisateur;
 import iaws.NBMR.exception.CustomException;
 import iaws.NBMR.service.InscriptionService;
@@ -11,6 +15,7 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.server.endpoint.annotation.XPathParam;
+import org.xml.sax.SAXException;
 
 @Endpoint
 public class InscriptionEndpoint {
@@ -23,15 +28,20 @@ public class InscriptionEndpoint {
 	
 	@PayloadRoot(localPart="inscriptionRequest", namespace="http://coUps/InscriptionSchema")
 	@ResponsePayload
-	public void handleInscriptionRequest( @XPathParam("/inscriptionRequest/nom") String nom,
+	public org.w3c.dom.Element handleInscriptionRequest( @XPathParam("/inscriptionRequest/nom") String nom,
 						 @XPathParam("/inscriptionRequest/prenom") String prenom,
 						 @XPathParam("/inscriptionRequest/email") String email,
-						 @XPathParam("/inscriptionRequest/adresse") String adresse){
+						 @XPathParam("/inscriptionRequest/adresse") String adresse) throws ParserConfigurationException, IOException, SAXException{
 		
 
 		System.out.println("-----------> Enter the hanler");
 		
-		Utilisateur utilisateur = new Utilisateur(nom, prenom, email, adresse);
+		org.w3c.dom.Element elmt = XmlHelper.getRootElementFromFileInClasspath("InscriptionResponse.xml");
+
+		return elmt;
+		
+		
+		//Utilisateur utilisateur = new Utilisateur(nom, prenom, email, adresse);
 		
 		/*
 		// On crée la réponse

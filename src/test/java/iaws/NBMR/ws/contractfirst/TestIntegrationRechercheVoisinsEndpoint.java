@@ -1,6 +1,7 @@
 package iaws.NBMR.ws.contractfirst;
 
 import static org.springframework.ws.test.server.RequestCreators.withPayload;
+import static org.springframework.ws.test.server.ResponseMatchers.payload;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -16,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ws.test.server.MockWebServiceClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/application-context.xml")
+@ContextConfiguration("application-context.xml")
 public class TestIntegrationRechercheVoisinsEndpoint {
 	@Autowired
     private ApplicationContext applicationContext;
@@ -25,20 +26,20 @@ public class TestIntegrationRechercheVoisinsEndpoint {
 
     @Before
     public void createClient() {
-    	System.out.println("entrée createClient()");
+    	System.out.println("Recherche: entree createClient()");
         mockClient = MockWebServiceClient.createClient(applicationContext);
-        System.out.println("création du mock Client");
+        System.out.println("recherche: creation du mock Client");
     }
 
     @Test
     public void rechercheVoisinsEndpoint() throws Exception {
-    	System.out.println("entrée RechercheVoisinsEndpoint()");
+    	System.out.println("entree test RechercheVoisinsEndpoint()");
         Source requestPayload = new StreamSource(new ClassPathResource("RechercheVoisinsRequest.xml").getInputStream() );
-        System.out.println("création de la source requestPayload");
+        System.out.println("creation de la source requestPayload");
         Source responsePayload = new StreamSource(new ClassPathResource("RechercheVoisinsResponse.xml").getInputStream());
-        System.out.println("création de la source responsePayload");
+        System.out.println("creation de la source responsePayload");
         
-        mockClient.sendRequest(withPayload(requestPayload))/*.andExpect(payload(responsePayload))*/;
+        mockClient.sendRequest(withPayload(requestPayload)).andExpect(payload(responsePayload));
         System.out.println("sendRequest with Payload(requestPayload)");
     }
 }

@@ -21,14 +21,6 @@
 						</tns:restriction>
 					</tns:simpleType>
 				</tns:element>
-				<tns:element name="coordonnees" minOccurs="0" maxOccurs="1">
-					<tns:complexType>
-						<tns:sequence>
-							<tns:element name="x" type="tns:double" minOccurs="1" maxOccurs="1" />
-							<tns:element name="y" type="tns:double" minOccurs="1" maxOccurs="1" />
-						</tns:sequence>
-					</tns:complexType>
-				</tns:element>
 				<tns:element name="erreur" minOccurs="0" maxOccurs="1">
 					<tns:complexType>
 						<tns:sequence>

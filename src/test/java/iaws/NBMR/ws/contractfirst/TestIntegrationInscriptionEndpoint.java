@@ -7,6 +7,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +28,15 @@ public class TestIntegrationInscriptionEndpoint {
 
     @Before
     public void createClient() {
-    	System.out.println("entr�e createClient()");
+    	System.out.println("entree createClient()");
         mockClient = MockWebServiceClient.createClient(applicationContext);
-        System.out.println("cr�ation du mock Client");
+        System.out.println("creation du mock Client");
     }
 
     @Test
     public void inscriptionEndpoint() throws Exception {
     	
-    	System.out.println("DEBUT de utilisateurEndpoint");
+    	System.out.println("DEBUT de inscriptionEndpoint");
     	
         Source requestPayload = new StreamSource(new ClassPathResource("InscriptionRequest.xml").getInputStream() );
         Source responsePayload = new StreamSource(new ClassPathResource("InscriptionResponse.xml").getInputStream());

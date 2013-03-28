@@ -65,7 +65,7 @@ public class OSMServiceImpl implements OSMService{
 			
 			// Récupération de la réponse et transformation en document XML en sortie
 			InputStream source = new ByteArrayInputStream(reponse.getBytes("UTF8"));
-			System.out.println(source);
+			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		    DocumentBuilder builder = factory.newDocumentBuilder();
 		    Document ret = builder.parse(new InputSource(source));

@@ -8,12 +8,19 @@ import iaws.NBMR.exception.CustomException;
 public interface DataService {
 
 	/**
-	 * Sauvegarde un utilisateur
+	 * Sauvegarde un utilisateur, si celui-ci est deja present, on le met à jour
 	 * 
 	 * @param utilisateur
-	 * @throws CustomException si l'email de l'utilisateur est déjà dans la base
 	 */
-	public void saveUtilisateur(Utilisateur utilisateur) throws CustomException;
+	public void saveUtilisateur(Utilisateur utilisateur);
+	
+	/**
+	 * Cherche un utilisateur par son adresse email
+	 * 
+	 * @param email
+	 * @return l'utilisateur trouvé, ou null si aucun n'a été trouvé
+	 */
+	public Utilisateur findUtilisateurByEmail(String email);
 	
 	/**
 	 * 

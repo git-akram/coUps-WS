@@ -16,8 +16,12 @@ public class InscriptionServiceImpl implements iaws.NBMR.service.InscriptionServ
 			(new InternetAddress(utilisateur.getEmail())).validate();
 		} catch (AddressException e) {
 			// Adresse email invalide
-			throw new CustomException(110, "Adresse email déjà utilisée");
+			throw new CustomException(110, "Adresse email invalide");
 		}
+		
+		// On va vérifier que l'adresse email n'est pas déjà utilisée
+		if(null == DataServiceImpl.getInstance().findUtilisateurByEmail(utilisateur.getEmail()))
+			throw new CustomException(100, "Adresse email déjà utilisée");
 		
 		// On va chercher les coordonnées OSM de l'utilisateur
 		Coordonnees coordonnees = 
@@ -27,7 +31,7 @@ public class InscriptionServiceImpl implements iaws.NBMR.service.InscriptionServ
 		utilisateur.setCoordonnees(coordonnees);
 		
 		// On enregistre notre nouvel utilisateur
-		(new DataServiceImpl()).saveUtilisateur(utilisateur);
+		DataServiceImpl.getInstance().saveUtilisateur(utilisateur);
 		
 	}
 

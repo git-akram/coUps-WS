@@ -2,30 +2,35 @@ package iaws.NBMR.domaines;
 
 public class Coordonnees {
 
-	private double x;
-	private double y;
+	private double latitude;
+	private double longitude;
+	
+	public Coordonnees(){
+		
+	}
 	
 	public Coordonnees(double x, double y){
-		this.x = x;
-		this.y = y;
+		this.latitude = x;
+		this.longitude = y;
 	}
 	
-	public double getX() {
-		return x;
+	public double getLatitude() {
+		return latitude;
 	}
-	public void setX(double x) {
-		this.x = x;
+	public void setLatitude(double x) {
+		this.latitude = x;
 	}
-	public double getY() {
-		return y;
+	public double getLongitude() {
+		return longitude;
 	}
-	public void setY(double y) {
-		this.y = y;
+	public void setLongitude(double y) {
+		this.longitude = y;
 	}
 
 	@Override
 	public String toString() {
-		return "Coordonnees [x=" + x + ", y=" + y + "]";
+		return "Coordonnees [latitude=" + latitude + ", longitude=" + longitude
+				+ "]";
 	}
-	
+
 }

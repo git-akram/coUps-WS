@@ -45,7 +45,12 @@ public class DataServiceImpl implements DataService{
 			if(current.equals(reference)) continue;
 			if(null == current.getCoordonnees()) continue;
 		
-			if(Math.sqrt(Math.pow(current.getCoordonnees().getX() - reference.getCoordonnees().getX(), 2) + Math.pow(current.getCoordonnees().getY() - reference.getCoordonnees().getY(), 2)) <= distance){
+			if(
+				Math.sqrt(
+					Math.pow(current.getCoordonnees().getLongitude() - reference.getCoordonnees().getLongitude(), 2)
+					+ 
+					Math.pow(current.getCoordonnees().getLatitude() - reference.getCoordonnees().getLatitude(), 2)
+				) <= distance){
 				// On a un match
 				toReturn.add(current);
 			}

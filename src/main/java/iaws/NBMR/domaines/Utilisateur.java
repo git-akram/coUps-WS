@@ -8,6 +8,10 @@ public class Utilisateur {
 	private String adresse;
 	private Coordonnees coordonnees;
 	
+	public Utilisateur(){
+		
+	}
+	
 	public Utilisateur(String nom, String prenom, String email, String adresse){
 		this.nom=nom;
 		this.prenom=prenom;
@@ -62,4 +66,13 @@ public class Utilisateur {
 	public void setCoordonnees(Coordonnees coordonnees) {
 		this.coordonnees = coordonnees;
 	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [nom=" + nom + ", prenom=" + prenom + ", email="
+				+ email + ", adresse=" + adresse + "]";
+	}
+
+	
+
 }

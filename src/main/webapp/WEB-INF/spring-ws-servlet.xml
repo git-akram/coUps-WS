@@ -21,17 +21,18 @@
 	</sws:dynamic-wsdl>
 	
 	<bean id="inscriptionEndpoint"
-		class="iaws.NBMR.ws.contractfirst.InscriptionEndpoint">
-        <constructor-arg name="inscriptionService" ref="inscriptionService"/>
+		class="iaws.NBMR.ws.contractfirst.UtilisateurEndpoint">
+        <constructor-arg name="utilisateurService" ref="utilisateurService"/>
     </bean>
-	<bean id="inscriptionService"
-		class="iaws.NBMR.services.impl.InscriptionServiceImpl" />
+	<bean id="utilisateurService"
+		class="iaws.NBMR.services.impl.UtilisateurServiceImpl" />
 		
+	<!-- 
 	<bean id="rechercheVoisinsEndpoint"
 		class="iaws.NBMR.ws.contractfirst.RechercheVoisinsEndpoint">
-<!--         <constructor-arg name="rechercheVoisinsService" ref="rechercheVoisinsService"/> -->
+	         <constructor-arg name="rechercheVoisinsService" ref="rechercheVoisinsService"/>
     </bean>
-<!-- 	<bean id="rechercheVoisinsService" -->
-<!-- 		class="iaws.NBMR.services.impl.RechercheVoisinsServiceImpl" /> -->
-
+	 	<bean id="rechercheVoisinsService"
+	 		class="iaws.NBMR.services.impl.RechercheVoisinsServiceImpl" />
+	-->
 </beans>

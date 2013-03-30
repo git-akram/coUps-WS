@@ -2,9 +2,5 @@
 		xmlns="http://coUps/InscriptionSchema"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://coUps/InscriptionSchema InscriptionSchema.xsd">
-	<valeur>KO</valeur>
-	<erreur>
-		<code>100</code>
-		<message>Adresse email déjà utilisée</message>
-	</erreur>
+	<valeur>OK</valeur>
 </inscriptionResponse>

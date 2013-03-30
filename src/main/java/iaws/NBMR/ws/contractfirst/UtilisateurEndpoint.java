@@ -2,10 +2,14 @@ package iaws.NBMR.ws.contractfirst;
 
 import iaws.NBMR.domaines.Utilisateur;
 import iaws.NBMR.exception.CustomException;
+import iaws.NBMR.service.DataService;
 import iaws.NBMR.service.UtilisateurService;
+import iaws.NBMR.services.impl.DataServiceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,14 +18,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
-import org.jdom.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.Namespace;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.server.endpoint.annotation.XPathParam;
 import org.xml.sax.SAXException;
@@ -33,54 +35,23 @@ public class UtilisateurEndpoint {
 	
 	@Autowired
 	public UtilisateurEndpoint(UtilisateurService utilisateurService){
-		System.out.println("Enter constructor endpoint");
 		this.utilisateurService = utilisateurService;
 	}
 	
 	
 	@PayloadRoot(localPart="inscriptionRequest", namespace="http://coUps/InscriptionSchema")
-	@org.springframework.ws.server.endpoint.annotation.Namespace(prefix="ins", uri="http://coUps/InscriptionSchema")
+	@Namespace(prefix="ins", uri="http://coUps/InscriptionSchema")
 	@ResponsePayload
 	public Element handleInscriptionRequest(@XPathParam("/ins:inscriptionRequest/ins:nom") String nom,
 			@XPathParam("/ins:inscriptionRequest/ins:prenom") String prenom,
 			@XPathParam("/ins:inscriptionRequest/ins:email") String email,
 			@XPathParam("/ins:inscriptionRequest/ins:adresse") String adresse) throws ParserConfigurationException {
 		
-
-		System.out.println("-----------> Enter the hanler inscription");
-		
-		//org.w3c.dom.Element elmt = XmlHelper.getRootElementFromFileInClasspath("InscriptionResponse.xml");
-		//return elmt;
-		
-		//*
-		
 		
 		// On construit l'utilisateur à inscrire
 		Utilisateur utilisateur = new Utilisateur(nom, prenom, email, adresse);
-		System.out.println(utilisateur);
-		/*
-		Utilisateur utilisateur = new Utilisateur();
-		NodeList elementsUtilisateur = elementRequest.getChildNodes();
-		for(int i = 0; i< elementsUtilisateur.getLength(); i++){
-			if(elementsUtilisateur.item(i).getNodeType() != Element.ELEMENT_NODE) continue;
-			
-			System.out.println("i: " + i + "/" + elementsUtilisateur.item(i).getTextContent());
-			String localName = elementsUtilisateur.item(i).getLocalName();
-			if(localName.equals("nom"))
-				utilisateur.setNom(elementsUtilisateur.item(i).getTextContent());
-			
-			else if(localName.equals("prenom"))
-				utilisateur.setPrenom(elementsUtilisateur.item(i).getTextContent());
-			
-			else if(localName.equals("email"))
-				utilisateur.setEmail(elementsUtilisateur.item(i).getTextContent());
-			
-			else if(localName.equals("adresse"))
-				utilisateur.setAdresse(elementsUtilisateur.item(i).getTextContent());
-		}
-		*/
 		
-		System.out.println("Trace 0");
+		System.out.println("Service inscription in="+utilisateur);		
 		
 		String namespace = "http://coUps/InscriptionSchema";
 		
@@ -92,25 +63,26 @@ public class UtilisateurEndpoint {
         Element racine = document.createElementNS(namespace,"inscriptionResponse");
         Element valeur = document.createElementNS(namespace, "valeur");
         racine.appendChild(valeur);
-        System.out.println("Trace 1");
+        
 		try {
 			// On tente d'inscrire notre utilisateur
 			utilisateurService.inscrireUtilisateur(utilisateur);
 			valeur.appendChild(document.createTextNode("OK"));
 		} catch (CustomException e) {
-			System.out.println("exception..");
 			valeur.appendChild(document.createTextNode("KO"));
 			
 			Element erreur = document.createElementNS(namespace, "erreur");
-			erreur.appendChild(
-					document.createElementNS(namespace, "code").appendChild(
-							document.createTextNode(""+e.getCode())
-					));
-			erreur.appendChild(
-					document.createElementNS(namespace, "message").appendChild(
-							document.createTextNode(e.getMessage())
-					));
-			
+
+        	Node textNode = document.createTextNode(""+e.getCode());
+        	Element elementNode = document.createElementNS(namespace, "code");
+        	elementNode.appendChild(textNode);
+        	erreur.appendChild(elementNode);
+
+        	textNode = document.createTextNode(e.getMessage());
+        	elementNode = document.createElementNS(namespace, "message");
+        	elementNode.appendChild(textNode);
+        	erreur.appendChild(elementNode);
+        	
 			racine.appendChild(erreur);
 		}
 		
@@ -123,18 +95,59 @@ public class UtilisateurEndpoint {
 	}
 	
 	@PayloadRoot(localPart="rechercheVoisinsRequest", namespace="http://coUps/RechercheVoisinsSchema")
+	@Namespace(prefix="rv", uri="http://coUps/RechercheVoisinsSchema")
 	@ResponsePayload
-	public Element handleRechercheVoisinsRequest(@RequestPayload Element request) 
-			throws ParserConfigurationException, IOException, SAXException{
+	public Element handleRechercheVoisinsRequest(@XPathParam("/rv:rechercheVoisinsRequest/rv:email") String email,
+												@XPathParam("/rv:rechercheVoisinsRequest/rv:distance") int distance) throws ParserConfigurationException {
 		
-		System.out.println("je suis dans handleRechercheVoisinsRequest");
-		
-		//Element elmt = XmlHelper.getRootElementFromFileInClasspath("RechercheVoisinsResponse.xml");
 
-		//return elmt;
+		Utilisateur utilisateur = DataServiceImpl.getInstance().findUtilisateurByEmail(email);
+
+		System.out.println("Service recherche voisin int="+utilisateur);
 		
-		return null;
-		//rechercheVoisinsService.rechercherVoisin(email, distance);
+		// On récupère la liste des utilisateur a coté de celui indiqué
+		List<Utilisateur> utilisateurs = utilisateurService.rechercherVoisins(utilisateur, distance);
+
+		String namespace = "http://coUps/RechercheVoisinsSchema";
+
+		// On crée la réponse
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document document = docBuilder.newDocument();
+        
+        Element racine = document.createElementNS(namespace,"rechercheVoisinsResponse");
+        Iterator<Utilisateur> it = utilisateurs.iterator();
+        while(it.hasNext()){
+            Utilisateur unVoisin = it.next();
+        	Element voisinElement = document.createElementNS(namespace, "voisin");
+
+        	Node textNode = document.createTextNode(unVoisin.getNom());
+        	Element elementNode = document.createElementNS(namespace, "nom");
+        	elementNode.appendChild(textNode);
+        	voisinElement.appendChild(elementNode);
+        	
+        	textNode = document.createTextNode(unVoisin.getPrenom());
+        	elementNode = document.createElementNS(namespace, "prenom");
+        	elementNode.appendChild(textNode);
+        	voisinElement.appendChild(elementNode);
+        	
+        	textNode = document.createTextNode(unVoisin.getEmail());
+        	elementNode = document.createElementNS(namespace, "email");
+        	elementNode.appendChild(textNode);
+        	voisinElement.appendChild(elementNode);
+        	
+        	textNode = document.createTextNode(unVoisin.getAdresse());
+        	elementNode = document.createElementNS(namespace, "adresse");
+        	elementNode.appendChild(textNode);
+        	voisinElement.appendChild(elementNode);
+    	
+        	racine.appendChild(voisinElement);
+        }
+
+		System.out.println("[Recherche voisin] Reponse : ");
+		System.out.println(nodeToString(racine));
+        
+		return racine;
 	}
 	
 	/**

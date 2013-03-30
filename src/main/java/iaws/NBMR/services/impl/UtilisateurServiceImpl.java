@@ -1,6 +1,5 @@
 package iaws.NBMR.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.internet.AddressException;
@@ -40,7 +39,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	}
 	
 	
-	public List<Utilisateur> rechercherVoisin(Utilisateur utilisateur, int distance) {
+	public List<Utilisateur> rechercherVoisins(Utilisateur utilisateur, int distance) {
 		
 		return DataServiceImpl.getInstance().findUtilisateurACoteDe(utilisateur.getEmail(), distance);
 		

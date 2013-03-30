@@ -5,6 +5,11 @@ public class Coordonnees {
 	private double x;
 	private double y;
 	
+	public Coordonnees(double x, double y){
+		this.x = x;
+		this.y = y;
+	}
+	
 	public double getX() {
 		return x;
 	}
@@ -17,4 +22,10 @@ public class Coordonnees {
 	public void setY(double y) {
 		this.y = y;
 	}
+
+	@Override
+	public String toString() {
+		return "Coordonnees [x=" + x + ", y=" + y + "]";
+	}
+	
 }

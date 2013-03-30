@@ -21,6 +21,6 @@ public interface UtilisateurService {
 	 * 
 	 * @return la liste des utilisateur voisins, sans l'utilisateur lui même
 	 */
-	public List<Utilisateur> rechercherVoisin(Utilisateur utilisateur, int distance);
+	public List<Utilisateur> rechercherVoisins(Utilisateur utilisateur, int distance);
 	
 }

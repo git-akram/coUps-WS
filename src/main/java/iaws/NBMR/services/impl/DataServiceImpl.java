@@ -38,18 +38,14 @@ public class DataServiceImpl implements DataService{
 	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) {
 		
 		List<Utilisateur> toReturn = new ArrayList<Utilisateur>();
-		
 		Utilisateur reference = this.findUtilisateurByEmail(email);
-		Utilisateur current = null;
+		Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
+		while(it.hasNext()){
+			Utilisateur current = it.next();
+			if(current.equals(reference)) continue;
+			if(null == current.getCoordonnees()) continue;
 		
-		for(Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator(); it.hasNext(); current = it.next()){
-			if(
-				Math.sqrt(
-						Math.pow(current.getCoordonnees().getX() - reference.getCoordonnees().getX(), 2)
-						+
-						Math.pow(current.getCoordonnees().getY() - reference.getCoordonnees().getY(), 2)
-				) <= distance
-			){
+			if(Math.sqrt(Math.pow(current.getCoordonnees().getX() - reference.getCoordonnees().getX(), 2) + Math.pow(current.getCoordonnees().getY() - reference.getCoordonnees().getY(), 2)) <= distance){
 				// On a un match
 				toReturn.add(current);
 			}

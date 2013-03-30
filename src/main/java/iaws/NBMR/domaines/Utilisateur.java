@@ -70,9 +70,13 @@ public class Utilisateur {
 	@Override
 	public String toString() {
 		return "Utilisateur [nom=" + nom + ", prenom=" + prenom + ", email="
-				+ email + ", adresse=" + adresse + "]";
+				+ email + ", adresse=" + adresse + " + coordonnees: " + coordonnees + "]" ;
 	}
-
 	
+	public boolean equals(Object o){
+		if(!(o instanceof Utilisateur)) return false;
+		
+		return this.getEmail().equals(((Utilisateur) o).getEmail());
+	}	
 
 }

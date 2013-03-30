@@ -5,6 +5,6 @@
 		xsi:schemaLocation="http://coUps/InscriptionSchema InscriptionSchema.xsd">
 	<nom>Rhafrane</nom>
 	<prenom>akram</prenom>
-	<email>aaa@exemple.com</email>
+	<email>user4@exemple.com</email>
 	<adresse>21 rue Albert 31300 toulouse</adresse>
 </inscriptionRequest>

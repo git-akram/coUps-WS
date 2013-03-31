@@ -26,7 +26,7 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext
-@ContextConfiguration("/application-context.xml")
+@ContextConfiguration("application-context.xml")
 public class TestIntegrationInscriptionEndpoint {
 	@Autowired
     private ApplicationContext applicationContext;

@@ -121,11 +121,14 @@ public class DataServiceImpl implements DataService{
 		}
 		
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
-	    String nom = json.getString("nom");
-	    String prenom = json.getString("prenom");
-	    String emailAdresse = json.getString("email");
-	    String adresse = json.getString("adresse");
-	    Coordonnees coordonnees=new Coordonnees(json.getDouble("lat"),json.getDouble("lon"));
+		JSONArray rows= json.getJSONArray("rows");
+		JSONObject element= rows.getJSONObject(0);
+		JSONObject value= element.getJSONObject("value");
+	    String nom = value.getString("nom");
+	    String prenom = value.getString("prenom");
+	    String emailAdresse = value.getString("email");
+	    String adresse = value.getString("adresse");
+	    Coordonnees coordonnees=new Coordonnees(value.getDouble("lat"),value.getDouble("lon"));
 	    
 	    Utilisateur utilisateur=new Utilisateur(nom,prenom,emailAdresse,adresse,coordonnees);
 	    return utilisateur;
@@ -183,11 +186,12 @@ public class DataServiceImpl implements DataService{
 
         for(int i=0; i < rows.size(); i++) { // parcourir l'objet JSONArray
             JSONObject row = rows.getJSONObject(i);
-            String nom = row.getString("nom");
-    	    String prenom = row.getString("prenom");
-    	    String emailAdresse = row.getString("email");
-    	    String adresse = row.getString("adresse");
-    	    Coordonnees coordonnees=new Coordonnees(row.getDouble("lat"),row.getDouble("lon"));
+            JSONObject value= row.getJSONObject("value");
+            String nom = value.getString("nom");
+    	    String prenom = value.getString("prenom");
+    	    String emailAdresse = value.getString("email");
+    	    String adresse = value.getString("adresse");
+    	    Coordonnees coordonnees=new Coordonnees(value.getDouble("lat"),value.getDouble("lon"));
     	    toReturn.add(new Utilisateur(nom,prenom,emailAdresse,adresse,coordonnees));
         }
 		

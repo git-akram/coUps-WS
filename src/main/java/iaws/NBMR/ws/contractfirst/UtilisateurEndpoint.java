@@ -6,7 +6,6 @@ import iaws.NBMR.service.DataService;
 import iaws.NBMR.service.UtilisateurService;
 import iaws.NBMR.services.impl.DataServiceImpl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -88,6 +87,9 @@ public class UtilisateurEndpoint {
 		
 		System.out.println("[Inscription] Reponse : ");
 		System.out.println(nodeToString(racine));
+		
+		System.out.println("[Inscription] Etat de la base");
+		DataServiceImpl.getInstance().print();
 		
 		
 		return racine;

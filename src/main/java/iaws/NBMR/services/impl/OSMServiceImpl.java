@@ -126,7 +126,6 @@ public class OSMServiceImpl implements OSMService{
     	}
 		
 		String s="Coordonnees [lat=NaN, lon=NaN]";
-		System.out.println(coordonnees.toString());
 	    if(s.equals(coordonnees.toString()))
 	    	throw new CustomException(200, "Adresse postale non connue de Open Street Map"); 
 		return coordonnees;

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -132,19 +133,63 @@ public class DataServiceImpl implements DataService{
 
 	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) {
 		
+		String resultat= null;
 		List<Utilisateur> toReturn = new ArrayList<Utilisateur>();
 		Utilisateur reference = this.findUtilisateurByEmail(email);
-		Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
-		while(it.hasNext()){
-			Utilisateur current = it.next();
-			if(current.equals(reference)) continue;
-			if(null == current.getCoordonnees()) continue;
-		
-			if(Math.sqrt(Math.pow(current.getCoordonnees().getLatitude() - reference.getCoordonnees().getLatitude(), 2) + Math.pow(current.getCoordonnees().getLongitude() - reference.getCoordonnees().getLongitude(), 2)) <= distance){
-				// On a un match
-				toReturn.add(current);
-			}
+		Document docView = new Document();
+	    docView.setId("_design/couchview");
+	                     
+	    String str = "{\"javaemail\": {\"map\": \"function(doc) { if (Math.sqrt(Math.pow(doc.lat - "+reference.getCoordonnees().getLatitude()+", 2) + Math.pow(doc.lon - "+reference.getCoordonnees().getLongitude()+", 2)) <= "+distance+")  emit(null, doc) } \"}}";
+	             
+	    docView.put("views", str);
+	    try {
+			db.saveDocument(docView);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	    
+	    
+	    HttpClient httpclient = new DefaultHttpClient();
+	    
+	    HttpGet get = new HttpGet("http://localhost:5984/exemple-couchdb/_design/couchview/_view/javaemail");
+	     
+	    
+		try {
+			HttpResponse response = httpclient.execute(get);
+			HttpEntity entity=response.getEntity();
+		    InputStream instream;
+		    instream = entity.getContent();
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+		    String strdata = null;
+		    while( (strdata =reader.readLine())!=null)
+			{
+			       resultat=resultat+strdata;
+			}
+		    
+		} catch (ClientProtocolException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	    
+		try {
+	    	db.deleteDocument(docView);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
+		JSONArray rows = json.getJSONArray("rows"); // Capturer tout les elements rows et les mettre dans un objet JSONArray
+
+        for(int i=0; i < rows.size(); i++) { // parcourir l'objet JSONArray
+            JSONObject row = rows.getJSONObject(i);
+            String nom = row.getString("nom");
+    	    String prenom = row.getString("prenom");
+    	    String emailAdresse = row.getString("email");
+    	    String adresse = row.getString("adresse");
+    	    Coordonnees coordonnees=new Coordonnees(row.getDouble("lat"),row.getDouble("lon"));
+    	    toReturn.add(new Utilisateur(nom,prenom,emailAdresse,adresse,coordonnees));
+        }
 		
 		return toReturn;
 	}

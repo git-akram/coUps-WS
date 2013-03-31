@@ -132,5 +132,6 @@ public class OSMServiceImpl implements OSMService{
 	    
 		return coordonnees;
 	}
+
 	
 }

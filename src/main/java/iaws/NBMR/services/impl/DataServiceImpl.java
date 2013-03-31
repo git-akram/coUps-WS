@@ -124,9 +124,9 @@ public class DataServiceImpl implements DataService{
 	    String prenom = json.getString("prenom");
 	    String emailAdresse = json.getString("email");
 	    String adresse = json.getString("adresse");
-	    //Coordonnees coordonnees=new Coordonnees(json.getDouble("lat"),json.getDouble("lon"));
+	    Coordonnees coordonnees=new Coordonnees(json.getDouble("lat"),json.getDouble("lon"));
 	    
-	    Utilisateur utilisateur=new Utilisateur(nom,prenom,emailAdresse,adresse);
+	    Utilisateur utilisateur=new Utilisateur(nom,prenom,emailAdresse,adresse,coordonnees);
 	    return utilisateur;
 	}
 

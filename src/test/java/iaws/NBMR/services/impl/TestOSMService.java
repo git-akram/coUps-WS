@@ -12,9 +12,9 @@ public class TestOSMService {
 	@Test
 	public void TestFindCoordonneesPourAdresse() throws Exception{
 		try{
-			Coordonnees coordonnees=OSMServiceImpl.getInstance().findCoordonneesPourAdresse("Rue du taur");
+			Coordonnees coordonnees = OSMServiceImpl.getInstance().findCoordonneesPourAdresse("Rue du taur");
 		}catch(CustomException e){
-			fail("Exception levée: " + e.getCode() + ": " + e.getMessage());
+			fail("Exception levée: " + e.getCode() + ": " + e.getMessage() + " [Rue du taur]");
 		}
 		try{
 			Coordonnees coordonnees=OSMServiceImpl.getInstance().findCoordonneesPourAdresse("rhezhfh");

@@ -47,12 +47,13 @@ public class OSMServiceImpl implements OSMService{
 	}
 
 	public Coordonnees findCoordonneesPourAdresse(String adresse) throws CustomException {
+
 		// Création des coordonnées a retourné
 		Coordonnees coordonnees=new Coordonnees();
 		// Construction de l'adresse
 		String adress=adresse;
 		adress=adress.replaceAll("\\s", "+");
-		
+
 		// Construction de l'url avec l'adresse entrée 
 		final StringBuilder searchUrlBuilder = new StringBuilder();
 		searchUrlBuilder.append("http://nominatim.openstreetmap.org");
@@ -61,6 +62,7 @@ public class OSMServiceImpl implements OSMService{
 		searchUrlBuilder.append("&format=xml&addressdetails=1");
 		String searchUrl = searchUrlBuilder.toString();
 		
+
 		//construction de la requéte http avec la méthode Get
 		final HttpGet req = new HttpGet(searchUrl);
 		ResponseHandler<String> gestionnaire_reponse = new BasicResponseHandler();
@@ -100,7 +102,7 @@ public class OSMServiceImpl implements OSMService{
 		    		new InputSource(new FileReader("OSMsortie.xml")), XPathConstants.NUMBER);
 		    Double lon=resultLon.doubleValue();
 		    coordonnees.setLongitude(lon);
-	
+
 		    // Suppression du fichier XML de sortie aprés utilisation
 		    new File("OSMsortie.xml").delete();
 
@@ -125,9 +127,11 @@ public class OSMServiceImpl implements OSMService{
         		httpclient.getConnectionManager().shutdown();
     	}
 		
-		String s="Coordonnees [lat=NaN, lon=NaN]";
-	    if(s.equals(coordonnees.toString()))
+	    // Si les valeurs retournées sont NaN, alors on leve l'exception
+	    if(Double.isNaN(coordonnees.getLatitude()) || Double.isNaN(coordonnees.getLongitude())){
 	    	throw new CustomException(200, "Adresse postale non connue de Open Street Map"); 
+	    }
+	    
 		return coordonnees;
 	}
 	

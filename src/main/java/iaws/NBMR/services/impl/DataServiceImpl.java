@@ -1,16 +1,22 @@
 package iaws.NBMR.services.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 //import org.w3c.dom.Document;
@@ -96,16 +102,42 @@ public class DataServiceImpl implements DataService{
 			System.out.println(current);
 		}*/
 		
-		HttpClient httpclient = new DefaultHttpClient();
-		 
-		HttpGet get = new HttpGet("http://localhost:5984/employee/_all_docs?startkey=%221%22&limit=5");
-		 
-		try {
-			HttpResponse response = httpclient.execute(get);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+		Document docView = new Document();
+	    docView.setId("_design/couchview");
+	                     
+	    String str = "{\"javaemail\": {\"map\": \"function(doc) { emit(null, doc) } \"}}";
+	             
+	    docView.put("views", str);
+	    try {
+			db.saveDocument(docView);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	    
+	    HttpClient httpclient = new DefaultHttpClient();
+		 
+		HttpGet get = new HttpGet("http://localhost:5984/utilisateur-coUps/_design/couchview/_view/javaemail");
+		try {
+			HttpResponse response = httpclient.execute(get);
+			HttpEntity entity=response.getEntity();
+		    InputStream instream;
+		    instream = entity.getContent();
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+		    String strdata = null;
+		    while( (strdata =reader.readLine())!=null)
+			{
+			       System.out.println(strdata);
+			}
+		} catch (ClientProtocolException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+	    	db.deleteDocument(docView);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 

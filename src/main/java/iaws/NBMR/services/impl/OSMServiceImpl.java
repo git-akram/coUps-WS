@@ -47,6 +47,7 @@ public class OSMServiceImpl implements OSMService{
 	}
 
 	public Coordonnees findCoordonneesPourAdresse(String adresse) throws CustomException {
+
 		// Création des coordonnées a retourné
 		Coordonnees coordonnees=new Coordonnees();
 		// Construction de l'adresse
@@ -125,9 +126,11 @@ public class OSMServiceImpl implements OSMService{
         		httpclient.getConnectionManager().shutdown();
     	}
 		
-		String s="Coordonnees [lat=NaN, lon=NaN]";
-	    if(s.equals(coordonnees.toString()))
+	    // Si les valeurs retournées sont NaN, alors on leve l'exception
+	    if(Double.isNaN(coordonnees.getLatitude()) || Double.isNaN(coordonnees.getLongitude())){
 	    	throw new CustomException(200, "Adresse postale non connue de Open Street Map"); 
+	    }
+	    
 		return coordonnees;
 	}
 	

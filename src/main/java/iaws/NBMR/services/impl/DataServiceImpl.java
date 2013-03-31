@@ -1,10 +1,23 @@
 package iaws.NBMR.services.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+//import org.w3c.dom.Document;
+
+import com.fourspaces.couchdb.Database;
+import com.fourspaces.couchdb.Session;
+import com.fourspaces.couchdb.Document;
 
 
 import iaws.NBMR.domaines.Utilisateur;
@@ -15,9 +28,15 @@ public class DataServiceImpl implements DataService{
 	private static DataServiceImpl instance = null;
 	
 	private Map<String, Utilisateur> listeUtilisateurs;
+	Session dbSession;
+	String dbname;
+	Database db;
 	
 	private DataServiceImpl(){
 		listeUtilisateurs = new HashMap<String, Utilisateur>();
+		dbSession = new Session("localhost", 5984);
+		dbname="utilisateur-coUps";
+		Database db = dbSession.getDatabase(dbname);
 	}
 	
 	public static DataServiceImpl getInstance(){
@@ -28,7 +47,21 @@ public class DataServiceImpl implements DataService{
 	
 	
 	public void saveUtilisateur(Utilisateur utilisateur) {
-		this.listeUtilisateurs.put(utilisateur.getEmail(), utilisateur);
+		//this.listeUtilisateurs.put(utilisateur.getEmail(), utilisateur);
+		Document doc = new Document();
+	    
+	    doc.put("nom", utilisateur.getNom());
+	    doc.put("prenom", utilisateur.getPrenom());
+	    doc.put("email", utilisateur.getEmail());
+	    doc.put("adresse", utilisateur.getAdresse());
+	    doc.put("lat", utilisateur.getCoordonnees().getLatitude());
+	    doc.put("lon", utilisateur.getCoordonnees().getLongitude());
+	    
+	    try {
+			db.saveDocument(doc);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Utilisateur findUtilisateurByEmail(String email){
@@ -57,10 +90,22 @@ public class DataServiceImpl implements DataService{
 	public void print() {
 		
 		System.out.println("==== Etat de la base ====");
-		Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
+		/*Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
 		while(it.hasNext()){
 			Utilisateur current = it.next();
 			System.out.println(current);
+		}*/
+		
+		HttpClient httpclient = new DefaultHttpClient();
+		 
+		HttpGet get = new HttpGet("http://localhost:5984/employee/_all_docs?startkey=%221%22&limit=5");
+		 
+		try {
+			HttpResponse response = httpclient.execute(get);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

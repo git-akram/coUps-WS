@@ -64,5 +64,15 @@
             <artifactId>mailapi</artifactId>
             <version>1.4.3</version>
         </dependency>
+    	<dependency>
+			<groupId>net.sf.ezmorph</groupId>
+			<artifactId>ezmorph</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.kohsuke.stapler</groupId>
+		    <artifactId>json-lib</artifactId>
+		    <version>2.1-rev6</version>
+		</dependency>   
     </dependencies>
 </project>

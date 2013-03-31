@@ -6,10 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -18,9 +15,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 //import org.w3c.dom.Document;
@@ -38,16 +33,16 @@ public class DataServiceImpl implements DataService{
 
 	private static DataServiceImpl instance = null;
 	
-	private Map<String, Utilisateur> listeUtilisateurs;
 	Session dbSession;
 	String dbname;
 	Database db;
 	
 	private DataServiceImpl(){
-		listeUtilisateurs = new HashMap<String, Utilisateur>();
+		new HashMap<String, Utilisateur>();
 		dbSession = new Session("localhost", 5984);
 		dbname="utilisateur-coUps";
-		Database db = dbSession.getDatabase(dbname);
+		dbSession.createDatabase("exemple-couchdb");
+		db = dbSession.getDatabase(dbname);
 	}
 	
 	public static DataServiceImpl getInstance(){
@@ -93,7 +88,7 @@ public class DataServiceImpl implements DataService{
 	    
 	    HttpClient httpclient = new DefaultHttpClient();
 	    
-	    HttpGet get = new HttpGet("http://localhost:5984/exemple-couchdb/_design/couchview/_view/javaemail");
+	    HttpGet get = new HttpGet("http://localhost:5984/"+dbname+"/_design/couchview/_view/javaemail");
 	     
 	    
 		try {
@@ -154,7 +149,7 @@ public class DataServiceImpl implements DataService{
 	    
 	    HttpClient httpclient = new DefaultHttpClient();
 	    
-	    HttpGet get = new HttpGet("http://localhost:5984/exemple-couchdb/_design/couchview/_view/javaemail");
+	    HttpGet get = new HttpGet("http://localhost:5984/"+dbname+"/_design/couchview/_view/javaemail");
 	     
 	    
 		try {

@@ -14,11 +14,11 @@ public class TestOSMService {
 		try{
 			Coordonnees coordonnees=OSMServiceImpl.getInstance().findCoordonneesPourAdresse("Rue du taur");
 		}catch(CustomException e){
-			fail("Exception levée: " + e.getCode() + ": " + e.getMessage());
+			fail("Exception levÃ©e: " + e.getCode() + ": " + e.getMessage());
 		}
 		try{
 			Coordonnees coordonnees=OSMServiceImpl.getInstance().findCoordonneesPourAdresse("rhezhfh");
-			fail("Adresse non trouve mais exception non levé");
+			fail("Adresse non trouve mais exception non levÃ©");
 		}catch(CustomException e){
 	
 		}

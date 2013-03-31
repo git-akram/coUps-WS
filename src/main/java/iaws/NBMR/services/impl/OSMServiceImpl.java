@@ -47,13 +47,13 @@ public class OSMServiceImpl implements OSMService{
 	}
 
 	public Coordonnees findCoordonneesPourAdresse(String adresse) throws CustomException {
-		// Création des coordonnées a retourné
+		// CrÃ©ation des coordonnÃ©es a retournÃ©
 		Coordonnees coordonnees=new Coordonnees();
 		// Construction de l'adresse
 		String adress=adresse;
 		adress=adress.replaceAll("\\s", "+");
 		
-		// Construction de l'url avec l'adresse entrée 
+		// Construction de l'url avec l'adresse entrÃ©e 
 		final StringBuilder searchUrlBuilder = new StringBuilder();
 		searchUrlBuilder.append("http://nominatim.openstreetmap.org");
 		searchUrlBuilder.append("/search?q=");
@@ -61,17 +61,17 @@ public class OSMServiceImpl implements OSMService{
 		searchUrlBuilder.append("&format=xml&addressdetails=1");
 		String searchUrl = searchUrlBuilder.toString();
 		
-		//construction de la requête http avec la méthode Get
+		//construction de la requÃ©te http avec la mÃ©thode Get
 		final HttpGet req = new HttpGet(searchUrl);
 		ResponseHandler<String> gestionnaire_reponse = new BasicResponseHandler();
 		String reponse=null;
 		HttpClient httpclient= new DefaultHttpClient();
 		
-		// Envoie de la requête http et reception de la réponse
+		// Envoie de la requÃªte http et reception de la rÃ©ponse
 		try{
 			reponse = httpclient.execute(req, gestionnaire_reponse);
 			
-			// Récupération de la réponse et transformation en document XML en sortie
+			// RÃ©cupÃ©ration de la rÃ©ponse et transformation en document XML en sortie
 			InputStream source = new ByteArrayInputStream(reponse.getBytes("UTF8"));
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -85,9 +85,9 @@ public class OSMServiceImpl implements OSMService{
 
 		    transformer.transform(input, output);
 		    
-		    // Récupération des valeur latitude et longitude à l'aide d'objet XPath
-		    // Et mise à jour des coordonnees latitude et longitude 
-		    // selon les valeurs récupéré
+		    // RÃ©cupÃ©ration des valeur latitude et longitude Ã  l'aide d'objet XPath
+		    // Et mise Ã  jour des coordonnees latitude et longitude 
+		    // selon les valeurs rÃ©cupÃ©rÃ©
 		    // les coordonnees en cas de resultat null sont lat=NaN et lon=NaN
 			XPathFactory xfactory = XPathFactory.newInstance();
 		    XPath xPath = xfactory.newXPath();
@@ -101,7 +101,7 @@ public class OSMServiceImpl implements OSMService{
 		    Double lon=resultLon.doubleValue();
 		    coordonnees.setLongitude(lon);
 	
-		    // Suppression du fichier XML de sortie après utilisation
+		    // Suppression du fichier XML de sortie aprÃ©s utilisation
 		    new File("OSMsortie.xml").delete();
 
 		} catch (ClientProtocolException e) {

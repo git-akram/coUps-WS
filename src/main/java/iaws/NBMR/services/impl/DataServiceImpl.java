@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -26,6 +29,7 @@ import com.fourspaces.couchdb.Session;
 import com.fourspaces.couchdb.Document;
 
 
+import iaws.NBMR.domaines.Coordonnees;
 import iaws.NBMR.domaines.Utilisateur;
 import iaws.NBMR.service.DataService;
 
@@ -53,7 +57,7 @@ public class DataServiceImpl implements DataService{
 	
 	
 	public void saveUtilisateur(Utilisateur utilisateur) {
-		//this.listeUtilisateurs.put(utilisateur.getEmail(), utilisateur);
+		
 		Document doc = new Document();
 	    
 	    doc.put("nom", utilisateur.getNom());
@@ -71,7 +75,59 @@ public class DataServiceImpl implements DataService{
 	}
 	
 	public Utilisateur findUtilisateurByEmail(String email){
-		return listeUtilisateurs.get(email);
+		
+		String resultat= null;
+		Document docView = new Document();
+	    docView.setId("_design/couchview");
+	                     
+	    String str = "{\"javaemail\": {\"map\": \"function(doc) { if (doc.email == '"+email+"')  emit(null, doc) } \"}}";
+	             
+	    docView.put("views", str);
+	    try {
+			db.saveDocument(docView);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    
+	    
+	    HttpClient httpclient = new DefaultHttpClient();
+	    
+	    HttpGet get = new HttpGet("http://localhost:5984/exemple-couchdb/_design/couchview/_view/javaemail");
+	     
+	    
+		try {
+			HttpResponse response = httpclient.execute(get);
+			HttpEntity entity=response.getEntity();
+		    InputStream instream;
+		    instream = entity.getContent();
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
+		    String strdata = null;
+		    while( (strdata =reader.readLine())!=null)
+			{
+			       resultat=resultat+strdata;
+			}
+		    
+		} catch (ClientProtocolException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	    
+		try {
+	    	db.deleteDocument(docView);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
+	    String nom = json.getString("nom");
+	    String prenom = json.getString("prenom");
+	    String emailAdresse = json.getString("email");
+	    String adresse = json.getString("adresse");
+	    //Coordonnees coordonnees=new Coordonnees(json.getDouble("lat"),json.getDouble("lon"));
+	    
+	    Utilisateur utilisateur=new Utilisateur(nom,prenom,emailAdresse,adresse);
+	    return utilisateur;
 	}
 
 	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) {
@@ -96,11 +152,6 @@ public class DataServiceImpl implements DataService{
 	public void print() {
 		
 		System.out.println("==== Etat de la base ====");
-		/*Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
-		while(it.hasNext()){
-			Utilisateur current = it.next();
-			System.out.println(current);
-		}*/
 		
 		Document docView = new Document();
 	    docView.setId("_design/couchview");

@@ -18,6 +18,14 @@ public class Utilisateur {
 		this.email=email;
 		this.adresse=adresse;
 	}
+	
+	public Utilisateur(String nom, String prenom, String email, String adresse, Coordonnees coordonnees){
+		this.nom=nom;
+		this.prenom=prenom;
+		this.email=email;
+		this.adresse=adresse;
+		this.coordonnees=coordonnees;
+	}
 
 	public Utilisateur(Utilisateur u) {
 		// TODO Auto-generated constructor stub

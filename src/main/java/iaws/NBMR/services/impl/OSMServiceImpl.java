@@ -34,6 +34,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import iaws.NBMR.domaines.Coordonnees;
+import iaws.NBMR.exception.CustomException;
 import iaws.NBMR.service.OSMService;
 
 public class OSMServiceImpl implements OSMService{
@@ -45,7 +46,7 @@ public class OSMServiceImpl implements OSMService{
 		return instance;
 	}
 
-	public Coordonnees findCoordonneesPourAdresse(String adresse) {
+	public Coordonnees findCoordonneesPourAdresse(String adresse) throws CustomException {
 		// Création des coordonnées a retourné
 		Coordonnees coordonnees=new Coordonnees();
 		// Construction de l'adresse
@@ -124,6 +125,10 @@ public class OSMServiceImpl implements OSMService{
         		httpclient.getConnectionManager().shutdown();
     	}
 		
+		String s="Coordonnees [lat=NaN, lon=NaN]";
+		System.out.println(coordonnees.toString());
+	    if(s.equals(coordonnees.toString()))
+	    	throw new CustomException(200, "Adresse postale non connue de Open Street Map"); 
 		return coordonnees;
 	}
 	

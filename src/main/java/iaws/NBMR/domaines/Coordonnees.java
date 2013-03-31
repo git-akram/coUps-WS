@@ -26,10 +26,8 @@ public class Coordonnees {
 	public void setLongitude(double y) {
 		this.longitude = y;
 	}
-
 	@Override
 	public String toString() {
 		return "Coordonnees [lat=" + latitude + ", lon=" + longitude + "]";
 	}
-	
 }

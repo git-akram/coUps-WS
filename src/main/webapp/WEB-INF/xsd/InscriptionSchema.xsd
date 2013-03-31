@@ -3,10 +3,10 @@
 	<tns:element name="inscriptionRequest">
 		<tns:complexType>
 			<tns:sequence>
-				<tns:element name="nom" maxOccurs="1" minOccurs="1"/>
-				<tns:element name="prenom" maxOccurs="1" minOccurs="1"/>
-				<tns:element name="email" maxOccurs="1" minOccurs="1"/>
-				<tns:element name="adresse" maxOccurs="1" minOccurs="1"/>
+				<tns:element name="nom" maxOccurs="1" minOccurs="1" type="tns:string"/>
+				<tns:element name="prenom" maxOccurs="1" minOccurs="1" type="tns:string"/>
+				<tns:element name="email" maxOccurs="1" minOccurs="1" type="tns:string"/>
+				<tns:element name="adresse" maxOccurs="1" minOccurs="1" type="tns:string"/>
 			</tns:sequence>
 		</tns:complexType>		
 	</tns:element>

@@ -70,7 +70,7 @@ public class Utilisateur {
 	@Override
 	public String toString() {
 		return "Utilisateur [nom=" + nom + ", prenom=" + prenom + ", email="
-				+ email + ", adresse=" + adresse + " + coordonnees: " + coordonnees + "]" ;
+				+ email + ", adresse=" + adresse + " \n coordonnees: " + coordonnees + "]" ;
 	}
 	
 	public boolean equals(Object o){

@@ -54,4 +54,14 @@ public class DataServiceImpl implements DataService{
 		return toReturn;
 	}
 
+	public void print() {
+		
+		System.out.println("==== Etat de la base ====");
+		Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
+		while(it.hasNext()){
+			Utilisateur current = it.next();
+			System.out.println(current);
+		}
+	}
+
 }

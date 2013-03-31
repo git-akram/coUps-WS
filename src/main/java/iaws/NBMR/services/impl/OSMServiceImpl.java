@@ -37,6 +37,13 @@ import iaws.NBMR.domaines.Coordonnees;
 import iaws.NBMR.service.OSMService;
 
 public class OSMServiceImpl implements OSMService{
+	private static OSMServiceImpl instance = null;
+	
+	public static OSMServiceImpl getInstance(){
+		if(instance == null)
+		instance = new OSMServiceImpl();
+		return instance;
+	}
 
 	public Coordonnees findCoordonneesPourAdresse(String adresse) {
 		// Création des coordonnées a retourné
@@ -71,8 +78,8 @@ public class OSMServiceImpl implements OSMService{
 		    Document ret = builder.parse(new InputSource(source));
 			
 		    Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		    File file=new File("sortie.xml");
-		    Result output = new StreamResult(file);
+		    //File file=new File("OSMsortie.xml");
+		    Result output = new StreamResult("OSMsortie.xml");
 		    Source input = new DOMSource(ret);
 
 		    transformer.transform(input, output);
@@ -83,19 +90,18 @@ public class OSMServiceImpl implements OSMService{
 		    // les coordonnees en cas de resultat null sont lat=NaN et lon=NaN
 			XPathFactory xfactory = XPathFactory.newInstance();
 		    XPath xPath = xfactory.newXPath();
-		    
-		    Number resultLat = (Number) xPath.evaluate("/searchresults/place/@lat", new InputSource(
-		            new FileReader("sortie.xml")), XPathConstants.NUMBER);
+		    Number resultLat = (Number) xPath.evaluate("/searchresults/place/@lat", 
+		    		new InputSource(new FileReader("OSMsortie.xml")), XPathConstants.NUMBER);
 		    Double lat=resultLat.doubleValue();
 		    coordonnees.setLatitude(lat);
 		    
-		    Number resultLon = (Number) xPath.evaluate("/searchresults/place/@lon", new InputSource(
-		            new FileReader("sortie.xml")), XPathConstants.NUMBER);
+		    Number resultLon = (Number) xPath.evaluate("/searchresults/place/@lon", 
+		    		new InputSource(new FileReader("OSMsortie.xml")), XPathConstants.NUMBER);
 		    Double lon=resultLon.doubleValue();
 		    coordonnees.setLongitude(lon);
 	
 		    // Suppression du fichier XML de sortie après utilisation
-		    file.delete();
+		    new File("OSMsortie.xml").delete();
 
 		} catch (ClientProtocolException e) {
 			System.err.println(e);

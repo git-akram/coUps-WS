@@ -20,12 +20,12 @@ public class TestUtilisateurService {
 	@Test
 	public void testInscrireUtilisateur() {
 		
-		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@ndd.com", "my adresse postale");
+		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@ndd.com", "rue du taur");
 		
 		Assert.assertEquals("", "mynom", utilisateur.getNom());
 		Assert.assertEquals("", "myprenom", utilisateur.getPrenom());
 		Assert.assertEquals("", "myemail@ndd.com", utilisateur.getEmail());
-		Assert.assertEquals("", "my adresse postale", utilisateur.getAdresse());
+		Assert.assertEquals("", "rue du taur", utilisateur.getAdresse());
 
 		try {
 			utilisateurService.inscrireUtilisateur(utilisateur);

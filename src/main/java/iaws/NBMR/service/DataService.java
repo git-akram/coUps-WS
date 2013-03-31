@@ -30,4 +30,9 @@ public interface DataService {
 	 */
 	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance);
 	
+	
+	/**
+	 * Affiche l'etat des donnees
+	 */
+	public void print();
 }

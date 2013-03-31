@@ -34,6 +34,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import iaws.NBMR.domaines.Coordonnees;
+import iaws.NBMR.exception.CustomException;
 import iaws.NBMR.service.OSMService;
 
 public class OSMServiceImpl implements OSMService{
@@ -45,14 +46,14 @@ public class OSMServiceImpl implements OSMService{
 		return instance;
 	}
 
-	public Coordonnees findCoordonneesPourAdresse(String adresse) {
-		// Création des coordonnées a retourné
+	public Coordonnees findCoordonneesPourAdresse(String adresse) throws CustomException {
+		// Crï¿½ation des coordonnï¿½es a retournï¿½
 		Coordonnees coordonnees=new Coordonnees();
 		// Construction de l'adresse
 		String adress=adresse;
 		adress=adress.replaceAll("\\s", "+");
 		
-		// Construction de l'url avec l'adresse entrée 
+		// Construction de l'url avec l'adresse entrï¿½e 
 		final StringBuilder searchUrlBuilder = new StringBuilder();
 		searchUrlBuilder.append("http://nominatim.openstreetmap.org");
 		searchUrlBuilder.append("/search?q=");
@@ -60,17 +61,17 @@ public class OSMServiceImpl implements OSMService{
 		searchUrlBuilder.append("&format=xml&addressdetails=1");
 		String searchUrl = searchUrlBuilder.toString();
 		
-		//construction de la requête http avec la méthode Get
+		//construction de la requï¿½te http avec la mï¿½thode Get
 		final HttpGet req = new HttpGet(searchUrl);
 		ResponseHandler<String> gestionnaire_reponse = new BasicResponseHandler();
 		String reponse=null;
 		HttpClient httpclient= new DefaultHttpClient();
 		
-		// Envoie de la requête http et reception de la réponse
+		// Envoie de la requï¿½te http et reception de la rï¿½ponse
 		try{
 			reponse = httpclient.execute(req, gestionnaire_reponse);
 			
-			// Récupération de la réponse et transformation en document XML en sortie
+			// Rï¿½cupï¿½ration de la rï¿½ponse et transformation en document XML en sortie
 			InputStream source = new ByteArrayInputStream(reponse.getBytes("UTF8"));
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -84,9 +85,9 @@ public class OSMServiceImpl implements OSMService{
 
 		    transformer.transform(input, output);
 		    
-		    // Récupération des valeur latitude et longitude à l'aide d'objet XPath
-		    // Et mise à jour des coordonnees latitude et longitude 
-		    // selon les valeurs récupéré
+		    // Rï¿½cupï¿½ration des valeur latitude et longitude ï¿½ l'aide d'objet XPath
+		    // Et mise ï¿½ jour des coordonnees latitude et longitude 
+		    // selon les valeurs rï¿½cupï¿½rï¿½
 		    // les coordonnees en cas de resultat null sont lat=NaN et lon=NaN
 			XPathFactory xfactory = XPathFactory.newInstance();
 		    XPath xPath = xfactory.newXPath();
@@ -100,7 +101,7 @@ public class OSMServiceImpl implements OSMService{
 		    Double lon=resultLon.doubleValue();
 		    coordonnees.setLongitude(lon);
 	
-		    // Suppression du fichier XML de sortie après utilisation
+		    // Suppression du fichier XML de sortie aprï¿½s utilisation
 		    new File("OSMsortie.xml").delete();
 
 		} catch (ClientProtocolException e) {
@@ -124,6 +125,11 @@ public class OSMServiceImpl implements OSMService{
         		httpclient.getConnectionManager().shutdown();
     	}
 		
+	    // Si les valeurs retournÃ©es sont NaN, alors on leve l'exception
+	    if(Double.isNaN(coordonnees.getLatitude()) || Double.isNaN(coordonnees.getLongitude())){
+	    	throw new CustomException(200, "Adresse postale non connue de Open Street Map"); 
+	    }
+	    
 		return coordonnees;
 	}
 	

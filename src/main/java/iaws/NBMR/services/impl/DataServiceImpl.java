@@ -53,7 +53,7 @@ public class DataServiceImpl implements DataService{
 	
 	public void saveUtilisateur(Utilisateur utilisateur) throws IOException{
 		
-		/*Document doc = new Document();
+		Document doc = new Document();
 	    
 	    doc.put("nom", utilisateur.getNom());
 	    doc.put("prenom", utilisateur.getPrenom());
@@ -67,7 +67,13 @@ public class DataServiceImpl implements DataService{
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;
-		}*/
+		}
+	    try {
+	    	db.deleteDocument(doc);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	public Utilisateur findUtilisateurByEmail(String email) throws IOException, ClientProtocolException{
@@ -78,7 +84,9 @@ public class DataServiceImpl implements DataService{
 	                     
 	    String str = "{\"javaemail\": {\"map\": \"function(doc) { if (doc.email == '"+email+"')  emit(null, doc) } \"}}";
 	    System.out.println("view : "+str);
-	    docView.put("views", str);
+	    JSONObject strobject= (JSONObject) JSONSerializer.toJSON(str);
+	    docView.put("language", "javascript");
+	    docView.put("views", strobject);
 	    try {
 			db.saveDocument(docView);
 		} catch (IOException e) {
@@ -115,12 +123,12 @@ public class DataServiceImpl implements DataService{
 			throw e1;
 		}
 	    
-		/*try {
+		try {
 	    	db.deleteDocument(docView);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			throw e1;
-		}*/
+		}
 		
 		System.out.println(resultat);
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
@@ -154,8 +162,8 @@ public class DataServiceImpl implements DataService{
 	    docView.setId("_design/voisinsview");
 	                     
 	    String str = "{\"javavoisins\": {\"map\": \"function(doc) { if (Math.sqrt(Math.pow(doc.lat - "+reference.getCoordonnees().getLatitude()+", 2) + Math.pow(doc.lon - "+reference.getCoordonnees().getLongitude()+", 2)) <= "+distance+")  emit(null, doc) } \"}}";
-	             
-	    docView.put("views", str);
+	    JSONObject strobject= (JSONObject) JSONSerializer.toJSON(str);        
+	    docView.put("views", strobject);
 	    try {
 			db.saveDocument(docView);
 		} catch (IOException e) {
@@ -186,11 +194,11 @@ public class DataServiceImpl implements DataService{
 			e1.printStackTrace();
 		}
 	    
-		/*try {
+		try {
 	    	db.deleteDocument(docView);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}*/
+		}
 		
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
 		JSONArray rows = json.getJSONArray("rows"); // Capturer tout les elements rows et les mettre dans un objet JSONArray
@@ -217,8 +225,8 @@ public class DataServiceImpl implements DataService{
 	    docView.setId("_design/printview");
 	                     
 	    String str = "{\"javaprint\": {\"map\": \"function(doc) { emit(null, doc) } \"}}";
-	             
-	    docView.put("views", str);
+	    JSONObject strobject= (JSONObject) JSONSerializer.toJSON(str);        
+	    docView.put("views", strobject);
 	    try {
 			db.saveDocument(docView);
 		} catch (IOException e) {
@@ -248,12 +256,12 @@ public class DataServiceImpl implements DataService{
 			throw e1;
 		}
 		
-		/*try {
+		try {
 	    	db.deleteDocument(docView);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			throw e1;
-		}*/
+		}
 	}
 
 }

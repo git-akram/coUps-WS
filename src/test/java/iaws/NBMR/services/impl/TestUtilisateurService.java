@@ -20,21 +20,18 @@ public class TestUtilisateurService {
 	@Test
 	public void testInscrireUtilisateur() {
 		
-		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@ndd.com", "rue du taur");
+		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@ndd.com", "Avenue des champs élysées");
 		
 		Assert.assertEquals("", "mynom", utilisateur.getNom());
 		Assert.assertEquals("", "myprenom", utilisateur.getPrenom());
 		Assert.assertEquals("", "myemail@ndd.com", utilisateur.getEmail());
-		Assert.assertEquals("", "rue du taur", utilisateur.getAdresse());
+		Assert.assertEquals("", "Avenue des champs élysées", utilisateur.getAdresse());
 
 		try {
 			utilisateurService.inscrireUtilisateur(utilisateur);
 		} catch (CustomException e) {
 			fail("Exception levée: " + e.getCode() + ": " + e.getMessage());
 		}
-		
-		
-		
 	}
 
 }

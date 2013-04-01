@@ -39,6 +39,8 @@ public class DataServiceImpl implements DataService{
 		
 		List<Utilisateur> toReturn = new ArrayList<Utilisateur>();
 		Utilisateur reference = this.findUtilisateurByEmail(email);
+		if(null == reference) return toReturn;
+		
 		Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
 		while(it.hasNext()){
 			Utilisateur current = it.next();
@@ -48,8 +50,6 @@ public class DataServiceImpl implements DataService{
 			if(current.getCoordonnees().getDistanceEnMetreAvec(reference.getCoordonnees())<= distance){
 				// On a un match
 				toReturn.add(current);
-				System.out.println("Match: " + current + " " + reference);
-				System.out.println("==> Distances: " + current.getCoordonnees().getDistanceEnMetreAvec(reference.getCoordonnees()) + " vs " + distance);
 			}
 		}
 		

@@ -33,12 +33,10 @@ public class Coordonnees {
 	}
 	
 	public int getDistanceEnMetreAvec(Coordonnees coordonnees){
-		System.out.println("Distance between " + this + " and " + coordonnees);
 		
 		int toReturn = getDistanceBetween(this.getLatitude(), this.getLongitude(),
 				this.getLatitude(),coordonnees.getLongitude());
 		
-		System.out.println("= " + toReturn);
 		return toReturn;
 	}
 	

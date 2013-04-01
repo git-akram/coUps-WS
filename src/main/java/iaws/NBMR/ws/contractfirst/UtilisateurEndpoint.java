@@ -117,7 +117,7 @@ public class UtilisateurEndpoint {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document document = docBuilder.newDocument();
-        
+
         Element racine = document.createElementNS(namespace,"rechercheVoisinsResponse");
         Iterator<Utilisateur> it = utilisateurs.iterator();
         while(it.hasNext()){

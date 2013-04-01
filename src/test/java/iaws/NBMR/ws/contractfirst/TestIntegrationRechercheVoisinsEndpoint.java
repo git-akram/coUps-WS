@@ -44,7 +44,6 @@ public class TestIntegrationRechercheVoisinsEndpoint {
     	us.inscrireUtilisateur(u2);
     	Utilisateur u3 = new Utilisateur("user3", "prenom3", "user3@exemple.com", "20, Route de narbonne, Toulouse");
     	us.inscrireUtilisateur(u3);
-    	DataServiceImpl.getInstance().print();
     }
     
     @Test

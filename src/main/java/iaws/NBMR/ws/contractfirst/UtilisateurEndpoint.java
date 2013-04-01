@@ -6,6 +6,7 @@ import iaws.NBMR.service.DataService;
 import iaws.NBMR.service.UtilisateurService;
 import iaws.NBMR.services.impl.DataServiceImpl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.Namespace;
@@ -89,7 +91,13 @@ public class UtilisateurEndpoint {
 		System.out.println(nodeToString(racine));
 		
 		System.out.println("[Inscription] Etat de la base");
-		DataServiceImpl.getInstance().print();
+		try {
+			DataServiceImpl.getInstance().print();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		
 		return racine;
@@ -103,7 +111,16 @@ public class UtilisateurEndpoint {
 												@XPathParam("/rv:rechercheVoisinsRequest/rv:distance") int distance) throws ParserConfigurationException {
 		
 
-		Utilisateur utilisateur = DataServiceImpl.getInstance().findUtilisateurByEmail(email);
+		Utilisateur utilisateur=new Utilisateur();
+		try {
+			utilisateur = DataServiceImpl.getInstance().findUtilisateurByEmail(email);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		System.out.println("Service recherche voisin int="+utilisateur);
 		

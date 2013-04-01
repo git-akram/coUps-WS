@@ -1,9 +1,13 @@
 package iaws.NBMR.services.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
+import org.apache.http.client.ClientProtocolException;
 
 import iaws.NBMR.domaines.Coordonnees;
 import iaws.NBMR.domaines.Utilisateur;
@@ -23,8 +27,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		}
 		
 		// On va vérifier que l'adresse email n'est pas déjà utilisée
-		if(null != DataServiceImpl.getInstance().findUtilisateurByEmail(utilisateur.getEmail()))
-			throw new CustomException(100, "Adresse email déjà utilisée");
+		try {
+			if(null != DataServiceImpl.getInstance().findUtilisateurByEmail(utilisateur.getEmail()))
+				throw new CustomException(100, "Adresse email déjà utilisée");
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		// On va chercher les coordonnées OSM de l'utilisateur
 		Coordonnees coordonnees = 
@@ -34,14 +44,27 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		utilisateur.setCoordonnees(coordonnees);
 		
 		// On enregistre notre nouvel utilisateur
-		DataServiceImpl.getInstance().saveUtilisateur(utilisateur);
+		try {
+			DataServiceImpl.getInstance().saveUtilisateur(utilisateur);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
 	
 	public List<Utilisateur> rechercherVoisins(Utilisateur utilisateur, int distance) {
 		
-		return DataServiceImpl.getInstance().findUtilisateurACoteDe(utilisateur.getEmail(), distance);
+		List<Utilisateur> ListUtilisateur=new ArrayList<Utilisateur>();
+		try {
+			ListUtilisateur= DataServiceImpl.getInstance().findUtilisateurACoteDe(utilisateur.getEmail(), distance);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return ListUtilisateur;
 		
 		/*
 		List<Utilisateur> voisins=new ArrayList<Utilisateur>();

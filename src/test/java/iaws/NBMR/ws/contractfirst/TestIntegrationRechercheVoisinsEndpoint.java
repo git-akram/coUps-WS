@@ -2,6 +2,9 @@ package iaws.NBMR.ws.contractfirst;
 
 import static org.springframework.ws.test.server.RequestCreators.withPayload;
 import static org.springframework.ws.test.server.ResponseMatchers.payload;
+
+import java.io.IOException;
+
 import iaws.NBMR.domaines.Coordonnees;
 import iaws.NBMR.domaines.Utilisateur;
 import iaws.NBMR.services.impl.DataServiceImpl;
@@ -40,9 +43,21 @@ public class TestIntegrationRechercheVoisinsEndpoint {
     	u2.setCoordonnees(new Coordonnees(1,3));
     	Utilisateur u3 = new Utilisateur("user3", "prenom3", "user3@exemple.com", "44, Route de narbonne 31400 Toulouse");
     	u3.setCoordonnees(new Coordonnees(5,7));
-    	DataServiceImpl.getInstance().saveUtilisateur(u1);
-    	DataServiceImpl.getInstance().saveUtilisateur(u2);
-    	DataServiceImpl.getInstance().saveUtilisateur(u3);
+    	try {
+			DataServiceImpl.getInstance().saveUtilisateur(u1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	try {
+			DataServiceImpl.getInstance().saveUtilisateur(u2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	try {
+			DataServiceImpl.getInstance().saveUtilisateur(u3);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     @Test

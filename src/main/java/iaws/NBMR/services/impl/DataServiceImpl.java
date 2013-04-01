@@ -40,8 +40,7 @@ public class DataServiceImpl implements DataService{
 	private DataServiceImpl(){
 		new HashMap<String, Utilisateur>();
 		dbSession = new Session("localhost", 5984);
-		dbname="utilisateur-coUps";
-		dbSession.createDatabase("exemple-couchdb");
+		dbname="utilisateur-coups";
 		db = dbSession.getDatabase(dbname);
 	}
 	
@@ -52,9 +51,9 @@ public class DataServiceImpl implements DataService{
 	}
 	
 	
-	public void saveUtilisateur(Utilisateur utilisateur) {
+	public void saveUtilisateur(Utilisateur utilisateur) throws IOException{
 		
-		Document doc = new Document();
+		/*Document doc = new Document();
 	    
 	    doc.put("nom", utilisateur.getNom());
 	    doc.put("prenom", utilisateur.getPrenom());
@@ -67,22 +66,24 @@ public class DataServiceImpl implements DataService{
 			db.saveDocument(doc);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+			throw e;
+		}*/
 	}
 	
-	public Utilisateur findUtilisateurByEmail(String email){
+	public Utilisateur findUtilisateurByEmail(String email) throws IOException, ClientProtocolException{
 		
-		String resultat= null;
+		String resultat= "";
 		Document docView = new Document();
 	    docView.setId("_design/couchview");
 	                     
 	    String str = "{\"javaemail\": {\"map\": \"function(doc) { if (doc.email == '"+email+"')  emit(null, doc) } \"}}";
-	             
+	    System.out.println("view : "+str);
 	    docView.put("views", str);
 	    try {
 			db.saveDocument(docView);
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw e;
 		}
 	    
 	    
@@ -98,23 +99,30 @@ public class DataServiceImpl implements DataService{
 		    instream = entity.getContent();
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
 		    String strdata = null;
+		    System.out.println("init resultat : "+resultat);
 		    while( (strdata =reader.readLine())!=null)
 			{
 			       resultat=resultat+strdata;
+			       System.out.println("boucle strdata : "+strdata);
+			       System.out.println("boucle resultat : "+resultat);
 			}
 		    
 		} catch (ClientProtocolException e1) {
 			e1.printStackTrace();
+			throw e1;
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			throw e1;
 		}
 	    
-		try {
+		/*try {
 	    	db.deleteDocument(docView);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+			throw e1;
+		}*/
 		
+		System.out.println(resultat);
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
 		JSONArray rows= json.getJSONArray("rows");
 		JSONObject element= rows.getJSONObject(0);
@@ -129,15 +137,23 @@ public class DataServiceImpl implements DataService{
 	    return utilisateur;
 	}
 
-	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) {
+	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) throws IOException, ClientProtocolException {
 		
-		String resultat= null;
+		String resultat= "";
 		List<Utilisateur> toReturn = new ArrayList<Utilisateur>();
-		Utilisateur reference = this.findUtilisateurByEmail(email);
+		Utilisateur reference=new Utilisateur();
+		
+		try {
+			reference = this.findUtilisateurByEmail(email);
+		} catch (ClientProtocolException e2) {
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
 		Document docView = new Document();
-	    docView.setId("_design/couchview");
+	    docView.setId("_design/voisinsview");
 	                     
-	    String str = "{\"javaemail\": {\"map\": \"function(doc) { if (Math.sqrt(Math.pow(doc.lat - "+reference.getCoordonnees().getLatitude()+", 2) + Math.pow(doc.lon - "+reference.getCoordonnees().getLongitude()+", 2)) <= "+distance+")  emit(null, doc) } \"}}";
+	    String str = "{\"javavoisins\": {\"map\": \"function(doc) { if (Math.sqrt(Math.pow(doc.lat - "+reference.getCoordonnees().getLatitude()+", 2) + Math.pow(doc.lon - "+reference.getCoordonnees().getLongitude()+", 2)) <= "+distance+")  emit(null, doc) } \"}}";
 	             
 	    docView.put("views", str);
 	    try {
@@ -149,7 +165,7 @@ public class DataServiceImpl implements DataService{
 	    
 	    HttpClient httpclient = new DefaultHttpClient();
 	    
-	    HttpGet get = new HttpGet("http://localhost:5984/"+dbname+"/_design/couchview/_view/javaemail");
+	    HttpGet get = new HttpGet("http://localhost:5984/"+dbname+"/_design/voisinsview/_view/javavoisins");
 	     
 	    
 		try {
@@ -170,11 +186,11 @@ public class DataServiceImpl implements DataService{
 			e1.printStackTrace();
 		}
 	    
-		try {
+		/*try {
 	    	db.deleteDocument(docView);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+		}*/
 		
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
 		JSONArray rows = json.getJSONArray("rows"); // Capturer tout les elements rows et les mettre dans un objet JSONArray
@@ -193,25 +209,26 @@ public class DataServiceImpl implements DataService{
 		return toReturn;
 	}
 
-	public void print() {
+	public void print() throws IOException, ClientProtocolException {
 		
 		System.out.println("==== Etat de la base ====");
 		
 		Document docView = new Document();
-	    docView.setId("_design/couchview");
+	    docView.setId("_design/printview");
 	                     
-	    String str = "{\"javaemail\": {\"map\": \"function(doc) { emit(null, doc) } \"}}";
+	    String str = "{\"javaprint\": {\"map\": \"function(doc) { emit(null, doc) } \"}}";
 	             
 	    docView.put("views", str);
 	    try {
 			db.saveDocument(docView);
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw e;
 		}
 	    
 	    HttpClient httpclient = new DefaultHttpClient();
 		 
-		HttpGet get = new HttpGet("http://localhost:5984/utilisateur-coUps/_design/couchview/_view/javaemail");
+		HttpGet get = new HttpGet("http://localhost:5984/utilisateur-coups/_design/printview/_view/javaprint");
 		try {
 			HttpResponse response = httpclient.execute(get);
 			HttpEntity entity=response.getEntity();
@@ -225,15 +242,18 @@ public class DataServiceImpl implements DataService{
 			}
 		} catch (ClientProtocolException e1) {
 			e1.printStackTrace();
+			throw e1;
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			throw e1;
 		}
 		
-		try {
+		/*try {
 	    	db.deleteDocument(docView);
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+			throw e1;
+		}*/
 	}
 
 }

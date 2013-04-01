@@ -7,12 +7,12 @@
     	<nom>user1</nom>
     	<prenom>prenom1</prenom>
     	<email>user1@exemple.com</email>
-    	<adresse>31 rue toulouse</adresse>
+    	<adresse>10, Route de narbonne, Toulouse</adresse>
   	</voisin>
   	<voisin>
 	    <nom>user2</nom>
 	    <prenom>prenom2</prenom>
 	    <email>user2@exemple.com</email>
-	    <adresse>40 rue toulouse</adresse>
+	    <adresse>50, Route de narbonne, Toulouse</adresse>
   	</voisin>
 </rechercheVoisinsResponse>

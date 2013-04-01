@@ -83,7 +83,6 @@ public class DataServiceImpl implements DataService{
 	    docView.setId("_design/couchview");
 	                     
 	    String str = "{\"javaemail\": {\"map\": \"function(doc) { if (doc.email == '"+email+"')  emit(null, doc) } \"}}";
-	    System.out.println("view : "+str);
 	    JSONObject strobject= (JSONObject) JSONSerializer.toJSON(str);
 	    docView.put("language", "javascript");
 	    docView.put("views", strobject);
@@ -107,12 +106,9 @@ public class DataServiceImpl implements DataService{
 		    instream = entity.getContent();
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
 		    String strdata = null;
-		    System.out.println("init resultat : "+resultat);
 		    while( (strdata =reader.readLine())!=null)
 			{
 			       resultat=resultat+strdata;
-			       System.out.println("boucle strdata : "+strdata);
-			       System.out.println("boucle resultat : "+resultat);
 			}
 		    
 		} catch (ClientProtocolException e1) {
@@ -130,7 +126,6 @@ public class DataServiceImpl implements DataService{
 			throw e1;
 		}
 		
-		System.out.println(resultat);
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
 		JSONArray rows= json.getJSONArray("rows");
 		JSONObject element= rows.getJSONObject(0);

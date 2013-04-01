@@ -39,13 +39,15 @@ public class DataServiceImpl implements DataService{
 		
 		List<Utilisateur> toReturn = new ArrayList<Utilisateur>();
 		Utilisateur reference = this.findUtilisateurByEmail(email);
+		if(null == reference) return toReturn;
+		
 		Iterator<Utilisateur> it = this.listeUtilisateurs.values().iterator();
 		while(it.hasNext()){
 			Utilisateur current = it.next();
 			if(current.equals(reference)) continue;
 			if(null == current.getCoordonnees()) continue;
 		
-			if(Math.sqrt(Math.pow(current.getCoordonnees().getLatitude() - reference.getCoordonnees().getLatitude(), 2) + Math.pow(current.getCoordonnees().getLongitude() - reference.getCoordonnees().getLongitude(), 2)) <= distance){
+			if(current.getCoordonnees().getDistanceEnMetreAvec(reference.getCoordonnees())<= distance){
 				// On a un match
 				toReturn.add(current);
 			}

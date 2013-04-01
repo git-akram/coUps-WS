@@ -18,6 +18,15 @@
 							<tns:element type="tns:string" name="prenom" maxOccurs="1" minOccurs="1"/>
 							<tns:element type="tns:string" name="email" maxOccurs="1" minOccurs="1"/>
 							<tns:element type="tns:string" name="adresse" maxOccurs="1" minOccurs="1"/>
+							<tns:element type="tns:integer" name="distance" maxOccurs="1" minOccurs="1"/>
+							<tns:element name="coordonnees" maxOccurs="1" minOccurs="1">
+								<tns:complexType>
+									<tns:sequence>
+										<tns:element type="tns:double" name="longitude" maxOccurs="1" minOccurs="1"/>
+										<tns:element type="tns:double" name="latitude" maxOccurs="1" minOccurs="1"/>
+									</tns:sequence>
+								</tns:complexType>
+							</tns:element>
 						</tns:sequence>
 					</tns:complexType>
 				</tns:element>

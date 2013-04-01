@@ -5,15 +5,10 @@ import static org.springframework.ws.test.server.ResponseMatchers.payload;
 
 import java.io.IOException;
 
-import iaws.NBMR.domaines.Coordonnees;
-import iaws.NBMR.domaines.Utilisateur;
-import iaws.NBMR.services.impl.DataServiceImpl;
-
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

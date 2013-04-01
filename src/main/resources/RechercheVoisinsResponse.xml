@@ -6,7 +6,7 @@
 	<voisin>
     	<nom>user1</nom>
     	<prenom>prenom1</prenom>
-    	<email>user1@exemple.com</email>
+    	<email>user1@univ-tlse3.fr</email>
     	<adresse>10, Route de narbonne, Toulouse</adresse>
     	<distance>526</distance>
     	<coordonnees>
@@ -17,7 +17,7 @@
   	<voisin>
 	    <nom>user2</nom>
 	    <prenom>prenom2</prenom>
-	    <email>user2@exemple.com</email>
+	    <email>user2@univ-tlse3.fr</email>
 	    <adresse>50, Route de narbonne, Toulouse</adresse>
 	    <distance>526</distance>
 	    <coordonnees>

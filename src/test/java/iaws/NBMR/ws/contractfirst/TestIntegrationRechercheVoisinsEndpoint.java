@@ -38,11 +38,11 @@ public class TestIntegrationRechercheVoisinsEndpoint {
     @Before
     public void insertMock() throws CustomException{
     	UtilisateurService us = new UtilisateurServiceImpl();
-    	Utilisateur u1 = new Utilisateur("user1", "prenom1", "user1@exemple.com", "10, Route de narbonne, Toulouse");
+    	Utilisateur u1 = new Utilisateur("user1", "prenom1", "user1@univ-tlse3.fr", "10, Route de narbonne, Toulouse");
     	us.inscrireUtilisateur(u1);
-    	Utilisateur u2 = new Utilisateur("user2", "prenom2", "user2@exemple.com", "50, Route de narbonne, Toulouse");
+    	Utilisateur u2 = new Utilisateur("user2", "prenom2", "user2@univ-tlse3.fr", "50, Route de narbonne, Toulouse");
     	us.inscrireUtilisateur(u2);
-    	Utilisateur u3 = new Utilisateur("user3", "prenom3", "user3@exemple.com", "20, Route de narbonne, Toulouse");
+    	Utilisateur u3 = new Utilisateur("user3", "prenom3", "user3@univ-tlse3.fr", "20, Route de narbonne, Toulouse");
     	us.inscrireUtilisateur(u3);
     }
     

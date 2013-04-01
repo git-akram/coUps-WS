@@ -6,6 +6,7 @@ import iaws.NBMR.exception.CustomException;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestUtilisateurService {
@@ -20,11 +21,11 @@ public class TestUtilisateurService {
 	@Test
 	public void testInscrireUtilisateur() {
 		
-		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@ndd.com", "Avenue des champs élysées");
+		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@univ-tlse3.fr", "Avenue des champs élysées");
 		
 		Assert.assertEquals("", "mynom", utilisateur.getNom());
 		Assert.assertEquals("", "myprenom", utilisateur.getPrenom());
-		Assert.assertEquals("", "myemail@ndd.com", utilisateur.getEmail());
+		Assert.assertEquals("", "myemail@univ-tlse3.fr", utilisateur.getEmail());
 		Assert.assertEquals("", "Avenue des champs élysées", utilisateur.getAdresse());
 
 		try {
@@ -32,6 +33,14 @@ public class TestUtilisateurService {
 		} catch (CustomException e) {
 			fail("Exception levée: " + e.getCode() + ": " + e.getMessage());
 		}
+	}
+	
+	@Ignore
+	@Test
+	public void testValiditeAdresseMail(){
+		
+		
+		
 	}
 
 }

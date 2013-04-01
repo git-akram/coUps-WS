@@ -53,7 +53,7 @@ public class OSMServiceImpl implements OSMService{
 		// Construction de l'adresse
 		String adress=adresse;
 		adress=adress.replaceAll("\\s", "+");
-		
+
 		// Construction de l'url avec l'adresse entrée 
 		final StringBuilder searchUrlBuilder = new StringBuilder();
 		searchUrlBuilder.append("http://nominatim.openstreetmap.org");
@@ -101,7 +101,7 @@ public class OSMServiceImpl implements OSMService{
 		    		new InputSource(new FileReader("OSMsortie.xml")), XPathConstants.NUMBER);
 		    Double lon=resultLon.doubleValue();
 		    coordonnees.setLongitude(lon);
-	
+
 		    // Suppression du fichier XML de sortie aprés utilisation
 		    new File("OSMsortie.xml").delete();
 

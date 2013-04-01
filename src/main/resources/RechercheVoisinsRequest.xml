@@ -5,5 +5,5 @@
 			xsi:schemaLocation="http://coUps/RechercheVoisinsSchema RechercheVoisinsSchema.xsd">
 
     <email>user3@exemple.com</email>
-    <distance>200</distance>  	
+    <distance>50000</distance>  	
 </rechercheVoisinsRequest>

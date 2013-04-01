@@ -48,6 +48,8 @@ public class DataServiceImpl implements DataService{
 			if(current.getCoordonnees().getDistanceEnMetreAvec(reference.getCoordonnees())<= distance){
 				// On a un match
 				toReturn.add(current);
+				System.out.println("Match: " + current + " " + reference);
+				System.out.println("==> Distances: " + current.getCoordonnees().getDistanceEnMetreAvec(reference.getCoordonnees()) + " vs " + distance);
 			}
 		}
 		

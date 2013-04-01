@@ -8,11 +8,26 @@
     	<prenom>prenom1</prenom>
     	<email>user1@exemple.com</email>
     	<adresse>10, Route de narbonne, Toulouse</adresse>
+    	<distance>526</distance>
+    	<coordonnees>
+    		<longitude>1.4603388</longitude>
+    		<latitude>43.5648768</latitude>
+    	</coordonnees>
   	</voisin>
   	<voisin>
 	    <nom>user2</nom>
 	    <prenom>prenom2</prenom>
 	    <email>user2@exemple.com</email>
 	    <adresse>50, Route de narbonne, Toulouse</adresse>
+	    <distance>526</distance>
+	    <coordonnees>
+	    	<longitude>1.4603388</longitude>
+	    	<latitude>43.5648768</latitude>
+	    </coordonnees>
   	</voisin>
 </rechercheVoisinsResponse>
+<rechercheVoisinsResponse xmlns="http://coUps/RechercheVoisinsSchema">
+<voisin><nom>user1</nom><prenom>prenom1</prenom><email>user1@exemple.com</email><adresse>10, Route de narbonne, Toulouse</adresse>
+<distance>526</distance><coordonnees><longitude>1.4603388</longitude><latitude>43.5648768</latitude></coordonnees></voisin>
+<voisin><nom>user2</nom><prenom>prenom2</prenom><email>user2@exemple.com</email><adresse>50, Route de narbonne, Toulouse</adresse>
+<distance>526</distance><coordonnees><longitude>1.4603388</longitude><latitude>43.5648768</latitude></coordonnees></voisin></rechercheVoisinsResponse>

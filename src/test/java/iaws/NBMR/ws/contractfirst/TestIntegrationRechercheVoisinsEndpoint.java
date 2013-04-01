@@ -7,7 +7,10 @@ import java.io.IOException;
 
 import iaws.NBMR.domaines.Coordonnees;
 import iaws.NBMR.domaines.Utilisateur;
+import iaws.NBMR.exception.CustomException;
+import iaws.NBMR.service.UtilisateurService;
 import iaws.NBMR.services.impl.DataServiceImpl;
+import iaws.NBMR.services.impl.UtilisateurServiceImpl;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -36,28 +39,14 @@ public class TestIntegrationRechercheVoisinsEndpoint {
     }
 
     @Before
-    public void insertMock(){
-    	Utilisateur u1 = new Utilisateur("user1", "prenom1", "user1@exemple.com", "31 rue toulouse");
-    	u1.setCoordonnees(new Coordonnees(2,3));
-    	Utilisateur u2 = new Utilisateur("user2", "prenom2", "user2@exemple.com", "40 rue toulouse");
-    	u2.setCoordonnees(new Coordonnees(1,3));
-    	Utilisateur u3 = new Utilisateur("user3", "prenom3", "user3@exemple.com", "44, Route de narbonne 31400 Toulouse");
-    	u3.setCoordonnees(new Coordonnees(5,7));
-    	try {
-			DataServiceImpl.getInstance().saveUtilisateur(u1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	try {
-			DataServiceImpl.getInstance().saveUtilisateur(u2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	try {
-			DataServiceImpl.getInstance().saveUtilisateur(u3);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    public void insertMock() throws CustomException{
+    	UtilisateurService us = new UtilisateurServiceImpl();
+    	Utilisateur u1 = new Utilisateur("user1", "prenom1", "user1@univ-tlse3.fr", "10, Route de narbonne, Toulouse");
+    	us.inscrireUtilisateur(u1);
+    	Utilisateur u2 = new Utilisateur("user2", "prenom2", "user2@univ-tlse3.fr", "50, Route de narbonne, Toulouse");
+    	us.inscrireUtilisateur(u2);
+    	Utilisateur u3 = new Utilisateur("user3", "prenom3", "user3@univ-tlse3.fr", "20, Route de narbonne, Toulouse");
+    	us.inscrireUtilisateur(u3);
     }
     
     @Test

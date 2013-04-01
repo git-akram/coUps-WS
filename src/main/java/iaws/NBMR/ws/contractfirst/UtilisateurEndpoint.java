@@ -98,6 +98,7 @@ public class UtilisateurEndpoint {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		
 		
 		return racine;
@@ -111,6 +112,7 @@ public class UtilisateurEndpoint {
 												@XPathParam("/rv:rechercheVoisinsRequest/rv:distance") int distance) throws ParserConfigurationException {
 		
 
+
 		Utilisateur utilisateur=new Utilisateur();
 		try {
 			utilisateur = DataServiceImpl.getInstance().findUtilisateurByEmail(email);
@@ -122,7 +124,8 @@ public class UtilisateurEndpoint {
 			e.printStackTrace();
 		}
 
-		System.out.println("Service recherche voisin int="+utilisateur);
+
+		System.out.println("Service recherche voisin :: "+utilisateur);
 		
 		// On récupère la liste des utilisateur a coté de celui indiqué
 		List<Utilisateur> utilisateurs = utilisateurService.rechercherVoisins(utilisateur, distance);
@@ -133,7 +136,7 @@ public class UtilisateurEndpoint {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document document = docBuilder.newDocument();
-        
+
         Element racine = document.createElementNS(namespace,"rechercheVoisinsResponse");
         Iterator<Utilisateur> it = utilisateurs.iterator();
         while(it.hasNext()){
@@ -154,17 +157,41 @@ public class UtilisateurEndpoint {
         	elementNode = document.createElementNS(namespace, "email");
         	elementNode.appendChild(textNode);
         	voisinElement.appendChild(elementNode);
-        	
+
         	textNode = document.createTextNode(unVoisin.getAdresse());
         	elementNode = document.createElementNS(namespace, "adresse");
         	elementNode.appendChild(textNode);
         	voisinElement.appendChild(elementNode);
+        	
+        	textNode = document.createTextNode(""+unVoisin.getCoordonnees().getDistanceEnMetreAvec(utilisateur.getCoordonnees()));
+        	elementNode = document.createElementNS(namespace, "distance");
+        	elementNode.appendChild(textNode);
+        	voisinElement.appendChild(elementNode);
     	
+        	Element coordonneesNode = document.createElementNS(namespace, "coordonnees");
+        	textNode = document.createTextNode(""+unVoisin.getCoordonnees().getLongitude());
+        	elementNode = document.createElementNS(namespace, "longitude");
+        	elementNode.appendChild(textNode);
+        	coordonneesNode.appendChild(elementNode);
+        	textNode = document.createTextNode(""+unVoisin.getCoordonnees().getLatitude());
+        	elementNode = document.createElementNS(namespace, "latitude");
+        	elementNode.appendChild(textNode);
+        	coordonneesNode.appendChild(elementNode);
+        	voisinElement.appendChild(coordonneesNode);
+        	
         	racine.appendChild(voisinElement);
         }
 
 		System.out.println("[Recherche voisin] Reponse : ");
 		System.out.println(nodeToString(racine));
+
+		try {
+			DataServiceImpl.getInstance().print();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
 		return racine;
 	}

@@ -74,7 +74,7 @@ public class Utilisateur {
 	public void setCoordonnees(Coordonnees coordonnees) {
 		this.coordonnees = coordonnees;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Utilisateur [nom=" + nom + ", prenom=" + prenom + ", email="

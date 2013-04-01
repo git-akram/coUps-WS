@@ -1,6 +1,8 @@
 package iaws.NBMR.services.impl;
 
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		// On va vérifier la validité de l'adresse e-mail
 		try {
 			(new InternetAddress(utilisateur.getEmail())).validate();
-		} catch (AddressException e) {
+			if(!utilisateur.getEmail().endsWith("@univ-tlse3.fr"))
+				throw new Exception();
+		} catch (Exception e) {
 			// Adresse email invalide
 			throw new CustomException(110, "Adresse email invalide");
 		}
@@ -56,6 +60,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	public List<Utilisateur> rechercherVoisins(Utilisateur utilisateur, int distance) {
 		
 		List<Utilisateur> ListUtilisateur=new ArrayList<Utilisateur>();
+		if(null == utilisateur) return ListUtilisateur;
+		
 		try {
 			ListUtilisateur= DataServiceImpl.getInstance().findUtilisateurACoteDe(utilisateur.getEmail(), distance);
 		} catch (ClientProtocolException e) {

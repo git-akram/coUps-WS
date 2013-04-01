@@ -34,7 +34,6 @@ public interface DataService {
 	 */
 	public List<Utilisateur> findUtilisateurACoteDe(String email, int distance) throws IOException;
 	
-	
 	/**
 	 * Affiche l'etat des donnees
 	 * @throws IOException 

@@ -68,12 +68,6 @@ public class DataServiceImpl implements DataService{
 			e.printStackTrace();
 			throw e;
 		}
-	    try {
-	    	db.deleteDocument(doc);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw e;
-		}
 	}
 	
 	public Utilisateur findUtilisateurByEmail(String email) throws IOException, ClientProtocolException{
@@ -98,7 +92,6 @@ public class DataServiceImpl implements DataService{
 	    
 	    HttpGet get = new HttpGet("http://localhost:5984/"+dbname+"/_design/couchview/_view/javaemail");
 	     
-	    
 		try {
 			HttpResponse response = httpclient.execute(get);
 			HttpEntity entity=response.getEntity();
@@ -125,9 +118,12 @@ public class DataServiceImpl implements DataService{
 			e1.printStackTrace();
 			throw e1;
 		}
-		
+		System.out.println(resultat);
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
 		JSONArray rows= json.getJSONArray("rows");
+		
+		if(rows.size() == 0) return null;
+		
 		JSONObject element= rows.getJSONObject(0);
 		JSONObject value= element.getJSONObject("value");
 	    String nom = value.getString("nom");
@@ -148,6 +144,7 @@ public class DataServiceImpl implements DataService{
 		
 		try {
 			reference = this.findUtilisateurByEmail(email);
+			if(null == reference) return toReturn;
 		} catch (ClientProtocolException e2) {
 			e2.printStackTrace();
 		} catch (IOException e2) {
@@ -156,7 +153,35 @@ public class DataServiceImpl implements DataService{
 		Document docView = new Document();
 	    docView.setId("_design/voisinsview");
 	                     
-	    String str = "{\"javavoisins\": {\"map\": \"function(doc) { if (Math.sqrt(Math.pow(doc.lat - "+reference.getCoordonnees().getLatitude()+", 2) + Math.pow(doc.lon - "+reference.getCoordonnees().getLongitude()+", 2)) <= "+distance+")  emit(null, doc) } \"}}";
+	    
+	    	String fonctionRetour = "function(doc) {"
+	    		+ "if(doc.email == '" + reference.getEmail() + "') return;"
+	    		+ "function getDistanceBetween(lat1, lon1, lat2, lon2) {"
+	    		+ "var R = 6371;"
+	    		+ "var dLat = deg2rad(lat2-lat1);"
+	    		+ "var dLon = deg2rad(lon2-lon1);"
+			    + "var a = "
+			    + "Math.sin(dLat/2) * Math.sin(dLat/2) +"
+			    + "Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *"
+			    + "Math.sin(dLon/2) * Math.sin(dLon/2);"
+			    + "var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));"
+			    + "var d = R * c;"
+			    + "return parseInt(d * 1000)"
+			    + "}"
+
+	    		+ "function deg2rad(deg) {"
+	    		+ "return deg * (Math.PI/180);"
+				+ "}"
+	    		
+				+ "if(getDistanceBetween("+reference.getCoordonnees().getLatitude()+", "+reference.getCoordonnees().getLongitude()+", doc.lat, doc.lon) <= " + distance +")"
+				+ "{ emit(null, doc) }"
+				
+				+ "}"
+				;
+			
+		String str = "{\"javavoisins\": {\"map\": \" "+fonctionRetour+" \"}}";
+
+	    
 	    JSONObject strobject= (JSONObject) JSONSerializer.toJSON(str);        
 	    docView.put("views", strobject);
 	    try {
@@ -194,10 +219,13 @@ public class DataServiceImpl implements DataService{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+		System.out.println(resultat);
 		JSONObject json= (JSONObject) JSONSerializer.toJSON(resultat);
 		JSONArray rows = json.getJSONArray("rows"); // Capturer tout les elements rows et les mettre dans un objet JSONArray
 
+		if(rows.size() == 0) return toReturn;
+		
+		
         for(int i=0; i < rows.size(); i++) { // parcourir l'objet JSONArray
             JSONObject row = rows.getJSONObject(i);
             JSONObject value= row.getJSONObject("value");

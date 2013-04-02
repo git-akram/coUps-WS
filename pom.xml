@@ -68,7 +68,6 @@
     		<groupId>couchdb4j</groupId>
 	    	<artifactId>couchdb4j</artifactId>
 	    	<version>0.3.0-i386-1</version>
-	    	<scope>provided</scope>
     	</dependency> 
     	<dependency>
 			<groupId>net.sf.ezmorph</groupId>

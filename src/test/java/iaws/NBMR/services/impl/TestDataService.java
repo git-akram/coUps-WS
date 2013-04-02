@@ -16,18 +16,18 @@ public class TestDataService {
 	@Test
 	public void saveUtilisateur() {
 		Coordonnees coordonnees=new Coordonnees(43.88,1.89);
-		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "myemail@ndd.com", "rue du taur", coordonnees);
+		Utilisateur utilisateur = new Utilisateur("mynom", "myprenom", "mymail1@univ-tlse3.fr", "rue du taur", coordonnees);
 		try {
 			DataServiceImpl.getInstance().saveUtilisateur(utilisateur);
 		} catch (IOException e) {
 			fail("Exception levée: " + e.hashCode() + ": " + e.getMessage());
-		}	
+		}
 	}
 	
 	@Test
 	public void findUtilisateurByEmail(){
 		try {
-			Utilisateur utilisateur=DataServiceImpl.getInstance().findUtilisateurByEmail("myemail@ndd.com");
+			Utilisateur utilisateur=DataServiceImpl.getInstance().findUtilisateurByEmail("mymail@univ-tlse3.fr");
 		} catch (ClientProtocolException e) {
 			fail("Exception levée: " + e.hashCode() + ": " + e.getMessage());
 		} catch (IOException e) {
